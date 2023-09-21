@@ -20,11 +20,11 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
           <h1 className="text-4xl font-normal tracking-tight">Gumroad</h1>
         </div>
 
-        <Separator />
+        <Separator className="bg-zinc-800"/>
         <SidebarNav items={sidebarNavItems} />
       </aside>
 
-      <div className="flex-1 bg-gray-700">{children}</div>
+      <div className="flex-1 bg-zinc-900">{children}</div>
     </div>
   );
 }

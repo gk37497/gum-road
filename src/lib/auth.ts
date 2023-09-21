@@ -1,4 +1,4 @@
-import { NextAuthOptions, getServerSession } from "next-auth";
+import { NextAuthOptions, User, getServerSession } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { login } from "./api/auth";
 
@@ -19,9 +19,16 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (credentials?.email && credentials?.password) {
-          const res = await login(credentials);
-          if (res.status === 200) {
-            return res.data.body.token;
+          try {
+            const res = await login(credentials);
+            if (res.status === 200) {
+              return {
+                id: res.data.id,
+                accessToken: res.data.body.token,
+              };
+            }
+          } catch (error) {
+            throw new Error("Invalid credentials");
           }
         }
         return null;
@@ -49,10 +56,10 @@ export const authOptions: NextAuthOptions = {
     },
   },
 
-  //   pages: {
-  //     signIn: '/auth/login',
-  //     error: '/auth/verify',
-  //   },
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/login",
+  },
 };
 
 export const getCurrentUser = async () => {

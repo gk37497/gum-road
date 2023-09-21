@@ -1,7 +1,5 @@
+import { RegisterView } from "@/sections/auth/register";
+
 export default function Page() {
-    return (
-        <div>
-            Register
-        </div>
-    )
+  return <RegisterView />;
 }

@@ -5,7 +5,7 @@ export default function DashboardPage() {
   return (
     <div>
       <PageTitle title="Dashbaord"/>
-      <Separator />
+      <Separator className="bg-zinc-800"/>
     </div>
   );
 }
