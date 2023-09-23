@@ -1,6 +1,7 @@
-import { AxiosRequestConfig } from "axios";
-import { fetcherWithBasicAuth } from "../fetcher";
-import { endpoints } from "../constants";
+import { LoginResponseBody } from '@/lib/types';
+import { AxiosRequestConfig } from 'axios';
+import { fetcherWithBasicAuth } from '../client/client-fetcher';
+import { endpoints } from '../constants';
 
 type LoginParams = {
   email: string;
@@ -10,9 +11,9 @@ type LoginParams = {
 export async function login(params: LoginParams) {
   const config: AxiosRequestConfig = {
     url: endpoints.login,
-    method: "POST",
-    data: params,
+    method: 'POST',
+    data: params
   };
 
-  return fetcherWithBasicAuth(config);
+  return fetcherWithBasicAuth<LoginResponseBody>(config);
 }

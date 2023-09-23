@@ -1,21 +1,21 @@
-import { NextAuthOptions, User, getServerSession } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { login } from "./api/auth";
+import { NextAuthOptions, getServerSession } from 'next-auth';
+import CredentialsProvider from 'next-auth/providers/credentials';
+import { login } from './api/auth';
 
 export const authOptions: NextAuthOptions = {
   secret: process.env.NEXTAUTH_SECRET,
   providers: [
     CredentialsProvider({
-      id: "Credentials",
-      name: "Credentials",
-      type: "credentials",
+      id: 'Credentials',
+      name: 'Credentials',
+      type: 'credentials',
       credentials: {
         email: {
-          label: "Email",
-          type: "text",
-          placeholder: "email",
+          label: 'Email',
+          type: 'text',
+          placeholder: 'email'
         },
-        password: { label: "Password", type: "password" },
+        password: { label: 'Password', type: 'password' }
       },
       async authorize(credentials) {
         if (credentials?.email && credentials?.password) {
@@ -23,22 +23,23 @@ export const authOptions: NextAuthOptions = {
             const res = await login(credentials);
             if (res.status === 200) {
               return {
-                id: res.data.id,
-                accessToken: res.data.body.token,
+                id: 'fake_id',
+                accessToken: res.data.body?.accessToken!
               };
             }
           } catch (error) {
-            throw new Error("Invalid credentials");
+            throw new Error('Invalid credentials');
           }
         }
         return null;
-      },
-    }),
+      }
+    })
   ],
   session: {
-    strategy: "jwt",
+    strategy: 'jwt'
   },
   callbacks: {
+    // TODO refresh token
     async jwt({ token, user }) {
       if (user) {
         token.accessToken = user.accessToken;
@@ -53,13 +54,12 @@ export const authOptions: NextAuthOptions = {
       }
 
       return session;
-    },
+    }
   },
-
   pages: {
-    signIn: "/auth/login",
-    error: "/auth/login",
-  },
+    signIn: '/auth/login',
+    error: '/auth/login'
+  }
 };
 
 export const getCurrentUser = async () => {

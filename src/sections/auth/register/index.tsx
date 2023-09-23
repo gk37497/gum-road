@@ -1,1 +1,1 @@
-export {default as RegisterView} from './register-view'
+export { default as RegisterView } from './register-view';

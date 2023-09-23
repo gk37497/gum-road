@@ -1,30 +1,29 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 
-import { cn } from "@/lib/utils";
-import { Label } from "@/components/ui/label";
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/lib/utils';
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { useForm } from "react-hook-form";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import { signIn } from "next-auth/react";
-import { useToast } from "@/components/ui/use-toast";
-import { useSearchParams } from "next/navigation";
+  FormMessage
+} from '@/components/ui/form';
+import { useToast } from '@/components/ui/use-toast';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signIn } from 'next-auth/react';
+import { useSearchParams } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
 
 const formSchema = z.object({
   mail: z.string().email(),
-  password: z.string(),
+  password: z.string()
 });
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
@@ -37,9 +36,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
     // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues: {
-      mail: "",
-      password: "",
-    },
+      mail: '',
+      password: ''
+    }
   });
 
   const { isSubmitting } = form.formState;
@@ -47,25 +46,23 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const payload = {
       email: values.mail,
-      password: values.password,
+      password: values.password
     };
-    await signIn("Credentials", {
+    await signIn('Credentials', {
       ...payload,
-      redirect: false,
+      redirect: false
     })
       .then((response) => {
-        const callbackUrl = params.has("callbackUrl")
-          ? `${params.get("callbackUrl")}`
-          : null;
+        const callbackUrl = params.has('callbackUrl') ? `${params.get('callbackUrl')}` : null;
         if (!response?.error && response?.ok) {
           if (callbackUrl) window.location.href = callbackUrl;
-          else window.location.href = "/dashboard";
+          else window.location.href = '/dashboard';
         }
         if (response?.error)
           toast({
-            title: "Uh oh! Something went wrong.",
+            title: 'Uh oh! Something went wrong.',
             description: response?.error?.toString(),
-            variant: "destructive",
+            variant: 'destructive'
           });
       })
       .catch((error) => {
@@ -74,7 +71,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   }
 
   return (
-    <div className={cn("grid gap-10", className)} {...props}>
+    <div className={cn('grid gap-10', className)} {...props}>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormField
@@ -84,11 +81,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               <FormItem>
                 <FormLabel>Email</FormLabel>
                 <FormControl>
-                  <Input
-                    placeholder="example@company.com"
-                    type="email"
-                    {...field}
-                  />
+                  <Input placeholder="example@company.com" type="email" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -108,7 +101,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
             )}
           />
           <Button type="submit" className="w-full" disabled={isSubmitting}>
-            {isSubmitting ? "..." : "Sign in"}
+            {isSubmitting ? '...' : 'Sign in'}
           </Button>
 
           <div className="relative">
@@ -116,9 +109,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               <span className="w-full border-t" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
+              <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
             </div>
           </div>
 
