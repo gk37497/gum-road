@@ -38,23 +38,16 @@ export interface AddProductPayload {
   storeName: string;
   coverImageId: string;
   thumbnailId: string;
-  additionalInformation: AdditionalInformation[];
-  term: Term;
+  additionalInformation: { attribute: string; value: string }[];
+  term: {
+    title: string;
+    description: string;
+  };
   options: {
     price: string;
     duration: string;
     type: string;
   }[];
-}
-
-export interface AdditionalInformation {
-  attribute: string;
-  value: string;
-}
-
-export interface Term {
-  title: string;
-  description: string;
 }
 
 export interface AddProductResponse {

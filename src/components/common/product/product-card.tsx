@@ -14,7 +14,7 @@ export default function ProductCard({ product }: Props) {
     <Link href={`/store/${product.merchant}/product/${product.uid}`}>
       <Card className="w-full cursor-pointer rounded-sm border">
         <div className="relative h-80 w-full">
-          <Image src={product.thumbnail.desktop} alt={product.title} fill />
+          <Image src={product.thumbnail?.desktop || ''} alt={product.title} fill />
         </div>
 
         <div className="px-4 py-5">

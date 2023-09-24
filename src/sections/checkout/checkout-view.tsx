@@ -3,12 +3,12 @@
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import {
-    Form,
-    FormControl,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
@@ -77,7 +77,7 @@ export default function CheckoutView() {
       <Card className="h-fit w-3/5 overflow-hidden rounded-sm border border-black">
         <div className="row flex items-start">
           <div className="relative h-40 w-40">
-            <Image src={product.thumbnail.desktop} alt={product.title} fill />
+            <Image src={product.thumbnail?.desktop || ''} alt={product.title} fill />
           </div>
 
           <div className="flex-1">

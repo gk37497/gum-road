@@ -41,7 +41,9 @@ export default async function Page() {
           Add new affiliate
         </Link>
       </div>
+
       <Separator />
+
       <Suspense>
         <div className="p-8">{affiliates && <DataTable data={affiliates} columns={columns} />}</div>
       </Suspense>
