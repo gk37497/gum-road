@@ -1,16 +1,68 @@
+/* eslint-disable @next/next/no-img-element */
 'use client';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useToast } from '@/components/ui/use-toast';
+import { useCreateInvoiceByProduct } from '@/lib/api/client/use-hooks';
+import { TBuyProduct } from '@/lib/form/types';
+import { buyProductFormSchema } from '@/lib/form/validations';
 import { useAppStore } from '@/lib/store';
+import { BuyProductPayload, BuyProductResponse } from '@/lib/types';
+import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
+import { useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 export default function CheckoutView() {
+  const { toast } = useToast();
+
   const product = useAppStore((s) => s.product);
   const option = useAppStore((s) => s.option);
-
   const removeAll = useAppStore((s) => s.removeAll);
+
+  const [qPay, setQPay] = useState<BuyProductResponse>();
+
+  const productCheckoutMutation = useCreateInvoiceByProduct();
+
+  const form = useForm<TBuyProduct>({
+    resolver: zodResolver(buyProductFormSchema),
+    defaultValues: {
+      email: ''
+    }
+  });
+
+  async function onSubmit(values: TBuyProduct) {
+    if (!product) return;
+
+    const productPayload: BuyProductPayload = {
+      productId: product._id,
+      email: values.email
+    };
+
+    try {
+      const res = await productCheckoutMutation.mutateAsync(productPayload);
+      if (res.success) {
+        setQPay(res.body?.qpay);
+      } else {
+        throw new Error(res.message);
+      }
+    } catch (error) {
+      toast({
+        title: 'Failed to buy product',
+        description: error?.toString(),
+        variant: 'destructive'
+      });
+    }
+  }
 
   if (!product || !option) {
     return (
@@ -22,7 +74,7 @@ export default function CheckoutView() {
 
   return (
     <div className="row flex space-x-12 p-8">
-      <Card className="w-3/5 overflow-hidden rounded-sm border border-black">
+      <Card className="h-fit w-3/5 overflow-hidden rounded-sm border border-black">
         <div className="row flex items-start">
           <div className="relative h-40 w-40">
             <Image src={product.thumbnail.desktop} alt={product.title} fill />
@@ -57,18 +109,51 @@ export default function CheckoutView() {
         </div>
       </Card>
 
-      <Card className="h-fit w-2/5 space-y-5 rounded-sm border border-black">
-        <div className="border-b border-black p-5">
-          <Label>
-            <span className="text-sm font-bold">Email</span>
-          </Label>
-          <Input placeholder="example@compony.com" className="h-12 border-black" />
-        </div>
+      {!qPay ? (
+        <Card className="h-fit w-2/5 space-y-5 rounded-sm border border-black">
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <div className="border-b border-black p-5">
+                <FormField
+                  control={form.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          placeholder="example@company.com"
+                          type="email"
+                          {...field}
+                          className="h-12 border-black"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
-        <div className="px-5 pb-5">
-          <Button className="h-12 w-full">Pay</Button>
-        </div>
-      </Card>
+              <div className="px-5 pb-5">
+                <Button
+                  className="h-12 w-full"
+                  type="submit"
+                  disabled={form.formState.isSubmitting}
+                >
+                  {form.formState.isSubmitting ? '...' : 'Pay'}
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </Card>
+      ) : (
+        <Card className="h-fit w-1/3 space-y-5 rounded-sm border border-black p-3">
+          <h1 className="py-1 text-center ">Scan QR code to pay</h1>
+          <div className="mx-auto h-56 w-56">
+            <img alt="qrimage" src={`data:image/jpeg;base64,${qPay.qr_image}`} />
+          </div>
+        </Card>
+      )}
     </div>
   );
 }

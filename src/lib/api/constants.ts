@@ -15,5 +15,9 @@ export const endpoints = {
 
   // Affiliate
   affiliate: '/affiliate',
-  'affliate-list': '/affiliate/merchant'
+  'affliate-list': '/affiliate/merchant',
+
+  // Checkout
+  'checkout-product': '/create-invoice',
+  'checkout-affliate': '/create-invoice/affiliate'
 };

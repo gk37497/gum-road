@@ -2,6 +2,8 @@ import {
   AddAffiliatePayload,
   AddProductPayload,
   AddProductResponse,
+  BuyProductPayload,
+  BuyProductResponse,
   UploadResponse
 } from '../../types';
 import { endpoints } from '../constants';
@@ -31,5 +33,21 @@ export function useAddAffliate() {
     endpoint: endpoints.affiliate,
     queryKey: 'affiliate',
     type: 'token'
+  });
+}
+
+export function useCreateInvoiceByProduct() {
+  return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>({
+    endpoint: endpoints['checkout-product'],
+    queryKey: 'checkout-product',
+    type: 'basic-auth'
+  });
+}
+
+export function useCreateInvoiceByAffiliate() {
+  return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>({
+    endpoint: endpoints['checkout-affliate'],
+    queryKey: 'checkout-product',
+    type: 'basic-auth'
   });
 }
