@@ -3,13 +3,12 @@
 import { ColumnDef } from '@tanstack/react-table';
 
 import { DataTableColumnHeader } from '@/components/common/table/data-table-column-header';
-import { DataTableRowActions } from '@/components/common/table/data-table-row-actions';
 import { labels, priorities, statuses } from '@/components/common/table/data/data';
-import { Task } from '@/components/common/table/data/schema';
 import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
+import { Affliate } from '@/lib/types';
 
-export const columns: ColumnDef<Task>[] = [
+export const columns: ColumnDef<Affliate>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -42,7 +41,7 @@ export const columns: ColumnDef<Task>[] = [
     accessorKey: 'title',
     header: ({ column }) => <DataTableColumnHeader column={column} title="Title" />,
     cell: ({ row }) => {
-      const label = labels.find((label) => label.value === row.original.label);
+      const label = labels.find((label) => label.value === row.original._id);
 
       return (
         <div className="flex space-x-2">
@@ -93,9 +92,9 @@ export const columns: ColumnDef<Task>[] = [
     filterFn: (row, id, value) => {
       return value.includes(row.getValue(id));
     }
-  },
-  {
-    id: 'actions',
-    cell: ({ row }) => <DataTableRowActions row={row} />
   }
+  //   {
+  //     id: 'actions',
+  //     cell: ({ row }) => <DataTableRowActions row={row} />
+  //   }
 ];

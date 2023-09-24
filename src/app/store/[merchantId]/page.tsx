@@ -1,4 +1,6 @@
-import { getMerchantIdList } from '@/lib/api/server/apis';
+import ProductList from '@/components/common/product/product-list';
+import { getMerchantIdList, getMerchantProducts } from '@/lib/api/server/apis';
+import { Suspense } from 'react';
 
 type Props = {
   params: {
@@ -19,12 +21,21 @@ export async function generateStaticParams() {
   }));
 }
 
-export default function MerchantDetailPage({ params }: Props) {
+async function getMerchantProductList(id: string) {
+  const res = await getMerchantProducts(id);
+  return res.data.body;
+}
+
+export default async function MerchantDetailPage({ params }: Props) {
   const { merchantId } = params;
+  const merchantResponse = await getMerchantProductList(merchantId);
 
   return (
-    <div>
-      <div>Merchant Page {merchantId}</div>
+    <div className="mx-auto max-w-6xl p-12">
+      <Suspense>
+        <div>{merchantResponse?.merchant.storeName}</div>
+        <ProductList products={merchantResponse?.product} />
+      </Suspense>
     </div>
   );
 }

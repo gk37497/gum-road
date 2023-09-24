@@ -86,8 +86,8 @@ export default function ProductForm() {
       }));
 
     const addProductPayload: AddProductPayload = {
-      storeName: values.storeName,
       title: values.title,
+      storeName: values.storeName,
       description: values.description,
       coverImageId,
       thumbnailId,

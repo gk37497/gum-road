@@ -1,4 +1,9 @@
-import { AddProductPayload, AddProductResponse, UploadResponse } from '../../types';
+import {
+  AddAffiliatePayload,
+  AddProductPayload,
+  AddProductResponse,
+  UploadResponse
+} from '../../types';
 import { endpoints } from '../constants';
 import { useAppMutation } from './client-fetcher';
 
@@ -17,6 +22,14 @@ export function useAddProduct() {
   return useAppMutation<AddProductResponse, any, AddProductPayload>({
     endpoint: endpoints.product,
     queryKey: 'product',
+    type: 'token'
+  });
+}
+
+export function useAddAffliate() {
+  return useAppMutation<any, any, AddAffiliatePayload>({
+    endpoint: endpoints.affiliate,
+    queryKey: 'affiliate',
     type: 'token'
   });
 }

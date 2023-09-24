@@ -1,5 +1,6 @@
 import QueryProvider from '@/components/react-query-providert';
 import AuthProvider from '@/components/session-provider';
+import StoreProvider from '@/components/store-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import type { Metadata } from 'next';
@@ -23,10 +24,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body className={inter.className}>
-        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem disableTransitionOnChange>
-          <QueryProvider>
-            <AuthProvider>{children}</AuthProvider>
-          </QueryProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="light"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <StoreProvider>
+            <QueryProvider>
+              <AuthProvider>{children}</AuthProvider>
+            </QueryProvider>
+          </StoreProvider>
         </ThemeProvider>
         <Toaster />
       </body>

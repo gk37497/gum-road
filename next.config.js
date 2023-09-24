@@ -1,5 +1,8 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  images: {
+    domains: ['mma-affiliate.s3.ap-southeast-1.amazonaws.com']
+  },
   env: {
     // Next-Auth
     NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,

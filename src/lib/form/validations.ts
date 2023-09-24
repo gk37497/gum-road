@@ -51,3 +51,33 @@ export const addProductformSchema = z.object({
     })
   )
 });
+
+export const addAffliateFormSchema = z.object({
+  email: z.string().email({ message: 'Invalid email address.' }),
+  list: z.array(
+    z
+      .object({
+        enabled: z.boolean().default(false).optional(),
+        productId: z.string().min(1, { message: 'Product ID is required.' }),
+        commission: z.number().optional()
+      })
+      .superRefine((data, ctx) => {
+        // if enabled is true, then commission and productId must be provided
+        if (data.enabled) {
+          if (!data.commission) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Commission is required.'
+            });
+          }
+
+          if (!data.productId) {
+            ctx.addIssue({
+              code: z.ZodIssueCode.custom,
+              message: 'Product ID is required.'
+            });
+          }
+        }
+      })
+  )
+});

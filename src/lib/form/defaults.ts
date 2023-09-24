@@ -1,4 +1,4 @@
-import { TAddProduct } from './types';
+import { TAddAffliate, TAddProduct } from './types';
 
 export const addProductDefaults: TAddProduct = {
   storeName: '',
@@ -37,6 +37,17 @@ export const addProductDefaults: TAddProduct = {
       duration: '12',
       type: 'month',
       enabled: false
+    }
+  ]
+};
+
+export const addAffliateDefaults: TAddAffliate = {
+  email: '',
+  list: [
+    {
+      productId: '',
+      enabled: false,
+      commission: 0
     }
   ]
 };
