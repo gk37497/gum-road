@@ -16,11 +16,14 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
   return (
     <div className="flex flex-col lg:flex-row">
       <aside className="min-h-[100vh] border-r lg:w-1/5">
-        <div className="space-y-0.5 p-14">
-          <h1 className="text-4xl font-normal tracking-tight">Gumroad</h1>
+        <div className="sticky top-0">
+          <div className="space-y-0.5 p-14">
+            <h1 className="text-4xl font-normal tracking-tight">Gumroad</h1>
+          </div>
+
+          <Separator />
         </div>
 
-        <Separator />
         <SidebarNav items={sidebarNavItems} />
       </aside>
 

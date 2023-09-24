@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import {
   Form,
   FormControl,
@@ -99,14 +100,16 @@ export default function AffiliateForm({ products }: Props) {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Email</FormLabel>
-                <FormControl className="bg-zinc-900">
-                  <Input
-                    placeholder="example@company.com"
-                    type="email"
-                    {...field}
-                    className="focus-visible:ring-0"
-                  />
-                </FormControl>
+                <Card>
+                  <FormControl>
+                    <Input
+                      placeholder="example@company.com"
+                      type="email"
+                      {...field}
+                      className="focus-visible:ring-0"
+                    />
+                  </FormControl>
+                </Card>
                 <FormMessage />
               </FormItem>
             )}
@@ -119,7 +122,7 @@ export default function AffiliateForm({ products }: Props) {
               <div className="max-w-[200px] flex-1 text-left text-sm font-light">Commission</div>
             </div>
 
-            <div className="rounded-sm border bg-zinc-900">
+            <Card className="rounded-sm border">
               {fields.map((field, index) => (
                 <div
                   key={field.id}
@@ -167,7 +170,7 @@ export default function AffiliateForm({ products }: Props) {
                   />
                 </div>
               ))}
-            </div>
+            </Card>
           </div>
 
           <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>

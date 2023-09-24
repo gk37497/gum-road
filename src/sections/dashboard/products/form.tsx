@@ -132,7 +132,7 @@ export default function ProductForm() {
   );
 
   return (
-    <div>
+    <div className="max-w-2xl">
       <div className={cn('grid gap-10')}>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">

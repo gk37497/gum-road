@@ -4,11 +4,13 @@ import { ProductForm } from '@/sections/dashboard';
 
 export default function AddProductPage() {
   return (
-    <div className="">
-      <div className="row flex items-center justify-between">
-        <PageTitle title="New Product" />
+    <div>
+      <div className="sticky top-0 z-10 bg-background">
+        <div className="row flex items-center justify-between">
+          <PageTitle title="New Product" />
+        </div>
+        <Separator />
       </div>
-      <Separator />
       <div className="p-12">
         <ProductForm />
       </div>

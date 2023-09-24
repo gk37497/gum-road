@@ -32,7 +32,7 @@ export default async function Page() {
 
   return (
     <>
-      <div className="row flex w-full items-center justify-between">
+      <div className="row sticky top-0 flex w-full items-center justify-between">
         <PageTitle title="Affiliate" />
         <Link
           href="/dashboard/affiliate/add"

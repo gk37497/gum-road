@@ -17,14 +17,17 @@ export function SidebarNav({ className, items, ...props }: SidebarNavProps) {
   const pathname = usePathname();
 
   return (
-    <nav className={cn('flex space-x-2 lg:flex-col lg:space-x-0', className)} {...props}>
+    <nav
+      className={cn('sticky top-40 flex space-x-2 lg:flex-col lg:space-x-0', className)}
+      {...props}
+    >
       {items.map((item) => (
         <Link
           key={item.href}
           href={item.href}
           className={cn(
             buttonVariants({ variant: 'ghost' }),
-            pathname === item.href
+            pathname.includes(item.href)
               ? 'border-r bg-zinc-950 text-white hover:bg-zinc-950 hover:text-white'
               : 'hover:bg-transparent hover:underline',
             'justify-center rounded-none border-b py-12 text-2xl font-normal'
