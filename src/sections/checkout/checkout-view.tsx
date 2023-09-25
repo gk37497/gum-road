@@ -53,9 +53,11 @@ export default function CheckoutView() {
       if (res.success) {
         setQPay(res.body?.qpay);
       } else {
+        console.log(res);
         throw new Error(res.message);
       }
     } catch (error) {
+      console.log(error);
       toast({
         title: 'Failed to buy product',
         description: error?.toString(),
