@@ -47,7 +47,9 @@ export const columns: ColumnDef<Affliate>[] = [
          return (
             <div className="flex space-x-2">
                {label && <Badge variant="outline">{label.label}</Badge>}
-               <span className="text-center font-medium">{row.original.commission}%</span>
+               <span className="text-center font-medium">
+                  {row.original.commission.toString()}%
+               </span>
             </div>
          );
       }
