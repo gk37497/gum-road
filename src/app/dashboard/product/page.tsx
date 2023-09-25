@@ -11,33 +11,33 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 async function getProducts() {
-  const respose = await getUserProducts();
-  return respose.data.body?.product || [];
+   const respose = await getUserProducts();
+   return respose.data.body?.product || [];
 }
 
 export default async function Page() {
-  const session = await getCurrentUser();
-  if (!session) {
-    redirect('/auth/login');
-  }
+   const session = await getCurrentUser();
+   if (!session) {
+      redirect('/auth/login');
+   }
 
-  const products = await getProducts();
+   const products = await getProducts();
 
-  return (
-    <div>
-      <div className="row flex w-full items-center justify-between">
-        <PageTitle title="Product" />
-        <Link
-          href="/dashboard/product/add"
-          className={cn(buttonVariants({ variant: 'default' }), 'mr-8')}
-        >
-          Add new product
-        </Link>
+   return (
+      <div>
+         <div className="row flex w-full items-center justify-between">
+            <PageTitle title="Product" />
+            <Link
+               href="/dashboard/product/add"
+               className={cn(buttonVariants({ variant: 'default' }), 'mr-8')}
+            >
+               Add new product
+            </Link>
+         </div>
+         <Separator />
+         <Suspense>
+            <div className="p-8">{products && <DataTable data={products} columns={columns} />}</div>
+         </Suspense>
       </div>
-      <Separator />
-      <Suspense>
-        <div className="p-8">{products && <DataTable data={products} columns={columns} />}</div>
-      </Suspense>
-    </div>
-  );
+   );
 }

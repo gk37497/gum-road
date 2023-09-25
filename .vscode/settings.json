@@ -1,10 +1,10 @@
 {
-  "typescript.tsdk": "node_modules/typescript/lib",
-  "typescript.enablePromptUseWorkspaceTsdk": true,
-  "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true,
-    "source.sortMembers": true
-  },
-  "workbench.colorTheme": "Kanagawa"
+   "typescript.tsdk": "node_modules/typescript/lib",
+   "typescript.enablePromptUseWorkspaceTsdk": true,
+   "editor.codeActionsOnSave": {
+      "source.fixAll": true,
+      "source.organizeImports": true,
+      "source.sortMembers": true
+   },
+   "workbench.colorTheme": "Kanagawa"
 }

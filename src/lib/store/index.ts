@@ -8,10 +8,10 @@ import { CartSlice, createCartSlice } from './sub-stores/store-cart';
 export type AppStoreInterface = CartSlice;
 
 export type SliceType<T> = StateCreator<
-  AppStoreInterface,
-  [['zustand/immer', never], ['zustand/persist', unknown], ['zustand/devtools', never]],
-  [],
-  T
+   AppStoreInterface,
+   [['zustand/immer', never], ['zustand/persist', unknown], ['zustand/devtools', never]],
+   [],
+   T
 >;
 
 export type StoreInterface = CartSlice;
@@ -24,30 +24,30 @@ export const { Provider } = zustandContext;
 
 // eslint-disable-next-line no-unused-vars
 export const useAppStore = <T>(selector: (state: StoreInterface) => T) => {
-  const store = useContext(zustandContext);
+   const store = useContext(zustandContext);
 
-  if (!store) throw new Error('Store is missing the provider');
+   if (!store) throw new Error('Store is missing the provider');
 
-  return useZustandStore(store, selector);
+   return useZustandStore(store, selector);
 };
 
 export const initializeStore = (preloadedState: Partial<StoreInterface> = {}) =>
-  createStore<
-    StoreInterface,
-    [['zustand/immer', never], ['zustand/persist', unknown], ['zustand/devtools', never]]
-  >(
-    immer(
-      persist(
-        devtools((...a) => ({
-          ...preloadedState,
-          ...createCartSlice(...a)
-        })),
-        {
-          name: 'app-store',
-          partialize: (state) => ({
-            option: state.option
-          })
-        }
+   createStore<
+      StoreInterface,
+      [['zustand/immer', never], ['zustand/persist', unknown], ['zustand/devtools', never]]
+   >(
+      immer(
+         persist(
+            devtools((...a) => ({
+               ...preloadedState,
+               ...createCartSlice(...a)
+            })),
+            {
+               name: 'app-store',
+               partialize: (state) => ({
+                  option: state.option
+               })
+            }
+         )
       )
-    )
-  );
+   );

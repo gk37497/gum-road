@@ -1,53 +1,70 @@
 import {
-  AddAffiliatePayload,
-  AddProductPayload,
-  AddProductResponse,
-  BuyProductPayload,
-  BuyProductResponse,
-  UploadResponse
+   AddAffiliatePayload,
+   AddProductPayload,
+   AddProductResponse,
+   BuyProductPayload,
+   BuyProductResponse,
+   UploadResponse
 } from '../../types';
 import { endpoints } from '../constants';
-import { useAppMutation } from './client-fetcher';
+import { useAppFetch, useAppMutation } from './client-fetcher';
 
 export function useUploadImage() {
-  return useAppMutation<UploadResponse, any, FormData>({
-    endpoint: endpoints.upload,
-    queryKey: 'upload',
-    type: 'token',
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  });
+   return useAppMutation<UploadResponse, any, FormData>({
+      endpoint: endpoints.upload,
+      queryKey: 'upload',
+      type: 'token',
+      headers: {
+         'Content-Type': 'multipart/form-data'
+      }
+   });
 }
 
 export function useAddProduct() {
-  return useAppMutation<AddProductResponse, any, AddProductPayload>({
-    endpoint: endpoints.product,
-    queryKey: 'product',
-    type: 'token'
-  });
+   return useAppMutation<AddProductResponse, any, AddProductPayload>({
+      endpoint: endpoints.product,
+      queryKey: 'product',
+      type: 'token'
+   });
 }
 
 export function useAddAffliate() {
-  return useAppMutation<any, any, AddAffiliatePayload>({
-    endpoint: endpoints.affiliate,
-    queryKey: 'affiliate',
-    type: 'token'
-  });
+   return useAppMutation<any, any, AddAffiliatePayload>({
+      endpoint: endpoints.affiliate,
+      queryKey: 'affiliate',
+      type: 'token'
+   });
 }
 
 export function useCreateInvoiceByProduct() {
-  return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>({
-    endpoint: endpoints['checkout-product'],
-    queryKey: 'checkout-product',
-    type: 'basic-auth'
-  });
+   return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>(
+      {
+         endpoint: endpoints['checkout-product'],
+         queryKey: 'checkout-product',
+         type: 'basic-auth'
+      }
+   );
 }
 
 export function useCreateInvoiceByAffiliate() {
-  return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>({
-    endpoint: endpoints['checkout-affliate'],
-    queryKey: 'checkout-product',
-    type: 'basic-auth'
-  });
+   return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>(
+      {
+         endpoint: endpoints['checkout-affliate'],
+         queryKey: 'checkout-product',
+         type: 'basic-auth'
+      }
+   );
+}
+
+export function useCheckInvoiceIsPaid({ invoiceId }: { invoiceId?: string }) {
+   return useAppFetch<{ isPaid: boolean }>(
+      {
+         endpoint: endpoints['check-invoice'] + `/${invoiceId}`,
+         queryKey: `check-invoice/${invoiceId}`,
+         type: 'basic-auth'
+      },
+      {
+         enabled: !!invoiceId
+      }
+   );
 }

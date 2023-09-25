@@ -13,40 +13,42 @@ import { redirect } from 'next/navigation';
 import { Suspense } from 'react';
 
 export const metadata: Metadata = {
-  title: 'Tasks',
-  description: 'A task and issue tracker build using Tanstack Table.'
+   title: 'Tasks',
+   description: 'A task and issue tracker build using Tanstack Table.'
 };
 
 async function getAffiliates() {
-  const respose = await getUserAffiliateList();
-  return respose.data.body?.affiliates || [];
+   const respose = await getUserAffiliateList();
+   return respose.data.body?.affiliates || [];
 }
 
 export default async function Page() {
-  const session = await getCurrentUser();
-  if (!session) {
-    redirect('/auth/login');
-  }
+   const session = await getCurrentUser();
+   if (!session) {
+      redirect('/auth/login');
+   }
 
-  const affiliates = await getAffiliates();
+   const affiliates = await getAffiliates();
 
-  return (
-    <>
-      <div className="row sticky top-0 flex w-full items-center justify-between">
-        <PageTitle title="Affiliate" />
-        <Link
-          href="/dashboard/affiliate/add"
-          className={cn(buttonVariants({ variant: 'default' }), 'mr-8')}
-        >
-          Add new affiliate
-        </Link>
-      </div>
+   return (
+      <>
+         <div className="row sticky top-0 flex w-full items-center justify-between">
+            <PageTitle title="Affiliate" />
+            <Link
+               href="/dashboard/affiliate/add"
+               className={cn(buttonVariants({ variant: 'default' }), 'mr-8')}
+            >
+               Add new affiliate
+            </Link>
+         </div>
 
-      <Separator />
+         <Separator />
 
-      <Suspense>
-        <div className="p-8">{affiliates && <DataTable data={affiliates} columns={columns} />}</div>
-      </Suspense>
-    </>
-  );
+         <Suspense>
+            <div className="p-8">
+               {affiliates && <DataTable data={affiliates} columns={columns} />}
+            </div>
+         </Suspense>
+      </>
+   );
 }

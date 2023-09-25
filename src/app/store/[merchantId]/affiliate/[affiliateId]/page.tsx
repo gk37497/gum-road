@@ -1,17 +1,17 @@
 type Props = {
-  params: {
-    merchantId: string;
-    affiliateId: string;
-  };
+   params: {
+      merchantId: string;
+      affiliateId: string;
+   };
 };
 
 export default function AffiliateDetailPage({ params }: Props) {
-  const { affiliateId, merchantId } = params;
-  return (
-    <div>
+   const { affiliateId, merchantId } = params;
+   return (
       <div>
-        Merchant {merchantId} Affiliate {affiliateId}
+         <div>
+            Merchant {merchantId} Affiliate {affiliateId}
+         </div>
       </div>
-    </div>
-  );
+   );
 }

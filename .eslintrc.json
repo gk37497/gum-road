@@ -1,26 +1,26 @@
 {
-  "extends": ["next", "prettier", "plugin:@tanstack/eslint-plugin-query/recommended"],
-  "plugins": ["unicorn", "prettier", "@tanstack/query"],
-  "rules": {
-    "@tanstack/query/exhaustive-deps": "error",
-    "@tanstack/query/prefer-query-object-syntax": "error",
-    "no-unused-vars": [
-      "error",
-      {
-        "args": "after-used",
-        "caughtErrors": "none",
-        "ignoreRestSiblings": true,
-        "vars": "all"
-      }
-    ],
-    "prefer-const": "error",
-    "react-hooks/exhaustive-deps": "error",
-    "prettier/prettier": "error",
-    "unicorn/filename-case": [
-      "error",
-      {
-        "case": "kebabCase"
-      }
-    ]
-  }
+   "extends": ["next", "prettier", "plugin:@tanstack/eslint-plugin-query/recommended"],
+   "plugins": ["unicorn", "prettier", "@tanstack/query"],
+   "rules": {
+      "@tanstack/query/exhaustive-deps": "error",
+      "@tanstack/query/prefer-query-object-syntax": "error",
+      "no-unused-vars": [
+         "error",
+         {
+            "args": "after-used",
+            "caughtErrors": "none",
+            "ignoreRestSiblings": true,
+            "vars": "all"
+         }
+      ],
+      "prefer-const": "error",
+      "react-hooks/exhaustive-deps": "error",
+      "prettier/prettier": "error",
+      "unicorn/filename-case": [
+         "error",
+         {
+            "case": "kebabCase"
+         }
+      ]
+   }
 }
