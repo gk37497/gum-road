@@ -1,14 +1,14 @@
-export const sidebarNavItems = [
+export const dashboardLinks = [
    {
-      title: 'Payouts',
-      href: '/dashboard/payouts'
+      href: '/dashboard/payouts',
+      title: 'Payouts'
    },
    {
-      title: 'Product',
-      href: '/dashboard/product'
+      href: '/dashboard/affiliate',
+      title: 'Affiliates'
    },
    {
-      title: 'Affiliate',
-      href: '/dashboard/affiliate'
+      href: '/dashboard/product',
+      title: 'Products'
    }
 ];

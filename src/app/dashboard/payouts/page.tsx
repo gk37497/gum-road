@@ -1,17 +1,17 @@
-import PageTitle from '@/components/common/page-title';
-import { Separator } from '@/components/ui/separator';
-import PayoutCard from '@/sections/dashboard/payouts/card';
+import DashboardHeader from '@/components/common/dashboard-header';
+import { buttonVariants } from '@/components/ui/button';
+import PayoutsView from '@/sections/dashboard/payouts-view';
+import Link from 'next/link';
 
 export default function Page() {
    return (
-      <div>
-         <PageTitle title="Payouts" />
-         <Separator />
-
-         <div className="row flex space-x-8 p-8">
-            <PayoutCard />
-            <PayoutCard />
-         </div>
-      </div>
+      <>
+         <DashboardHeader title="Payouts">
+            <Link href="/dashboard/affiliate/add" className={buttonVariants({ variant: 'brand' })}>
+               Widthdraw
+            </Link>
+         </DashboardHeader>
+         <PayoutsView />
+      </>
    );
 }

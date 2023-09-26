@@ -132,247 +132,258 @@ export default function ProductForm() {
    );
 
    return (
-      <div className="max-w-2xl">
-         <div className={cn('grid gap-10')}>
-            <Form {...form}>
-               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                  <FormField
-                     control={form.control}
-                     name="storeName"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Store Name</FormLabel>
-                           <FormControl>
-                              <Input placeholder="example" type="text" {...field} />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-
-                  <FormField
-                     control={form.control}
-                     name="title"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Product Name</FormLabel>
-                           <FormControl>
-                              <Input placeholder="Product name" type="text" {...field} />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-
-                  <FormField
-                     control={form.control}
-                     name="price"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Price</FormLabel>
-                           <FormControl>
-                              <Input placeholder="1000" type="number" {...field} />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-
-                  <FormField
-                     control={form.control}
-                     name="description"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Product Description</FormLabel>
-                           <FormControl>
-                              <Editor {...field} />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-
-                  <FormField
-                     control={form.control}
-                     name="cover"
-                     render={({ field }) => (
-                        <FormItem className="max-w-[300px]">
-                           <FormLabel>Cover</FormLabel>
-                           <FormControl>
-                              <Upload
-                                 {...field}
-                                 file={field.value?.preview}
-                                 onDrop={(a) => handleDropFile(a, 'cover')}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-
-                  <FormField
-                     control={form.control}
-                     name="thumbnail"
-                     render={({ field }) => (
-                        <FormItem className="max-w-[200px]">
-                           <FormLabel>Thumbnail</FormLabel>
-                           <FormControl>
-                              <Upload
-                                 {...field}
-                                 file={field.value?.preview}
-                                 onDrop={(a) => handleDropFile(a, 'thumbnail')}
-                              />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
-
-                  <h1>Product Info</h1>
-
-                  <div className="max-w-md space-y-8">
+      <div className="flex space-x-8">
+         <div className="w-full md:w-1/2">
+            <div className={cn('grid gap-10')}>
+               <Form {...form}>
+                  <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                      <FormField
                         control={form.control}
-                        name="summary"
+                        name="storeName"
                         render={({ field }) => (
                            <FormItem>
-                              <FormLabel>Summary</FormLabel>
+                              <FormLabel>Store Name</FormLabel>
                               <FormControl>
-                                 <Input placeholder="Summary" type="text" {...field} />
+                                 <Input placeholder="example" type="text" {...field} />
                               </FormControl>
                               <FormMessage />
                            </FormItem>
                         )}
                      />
 
-                     <h2>Additional Details</h2>
+                     <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>Product Name</FormLabel>
+                              <FormControl>
+                                 <Input placeholder="Product name" type="text" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
 
-                     {fields.map((field, index) => (
-                        <div key={field.id} className="row mt-5 flex items-end space-x-5">
-                           <FormField
-                              control={form.control}
-                              name={`additionalInformation.${index}.attribute`}
-                              render={({ field }) => (
-                                 <FormItem>
-                                    <FormLabel>Attribute</FormLabel>
-                                    <FormControl>
-                                       <Input placeholder="Attribute" type="text" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                 </FormItem>
-                              )}
-                           />
+                     <FormField
+                        control={form.control}
+                        name="price"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>Price</FormLabel>
+                              <FormControl>
+                                 <Input placeholder="1000" type="number" {...field} />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
 
-                           <FormField
-                              control={form.control}
-                              name={`additionalInformation.${index}.value`}
-                              render={({ field }) => (
-                                 <FormItem>
-                                    <FormLabel>Value</FormLabel>
-                                    <FormControl>
-                                       <Input placeholder="Value" type="text" {...field} />
-                                    </FormControl>
-                                    <FormMessage />
-                                 </FormItem>
-                              )}
-                           />
+                     <FormField
+                        control={form.control}
+                        name="description"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>Product Description</FormLabel>
+                              <FormControl>
+                                 <Editor {...field} />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
 
-                           <Button type="button" variant={'outline'} onClick={() => remove(index)}>
-                              <TrashIcon />
-                           </Button>
-                        </div>
-                     ))}
+                     <FormField
+                        control={form.control}
+                        name="cover"
+                        render={({ field }) => (
+                           <FormItem className="max-w-[300px]">
+                              <FormLabel>Cover</FormLabel>
+                              <FormControl>
+                                 <Upload
+                                    {...field}
+                                    file={field.value?.preview}
+                                    onDrop={(a) => handleDropFile(a, 'cover')}
+                                 />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
 
-                     <Button
-                        type="button"
-                        className="w-full"
-                        onClick={() =>
-                           append({
-                              attribute: '',
-                              value: ''
-                           })
-                        }
-                     >
-                        <PlusCircledIcon className="mr-2" />
-                        Add Detail
-                     </Button>
-                  </div>
+                     <FormField
+                        control={form.control}
+                        name="thumbnail"
+                        render={({ field }) => (
+                           <FormItem className="max-w-[200px]">
+                              <FormLabel>Thumbnail</FormLabel>
+                              <FormControl>
+                                 <Upload
+                                    {...field}
+                                    file={field.value?.preview}
+                                    onDrop={(a) => handleDropFile(a, 'thumbnail')}
+                                 />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
 
-                  <FormField
-                     control={form.control}
-                     name="term"
-                     render={({ field }) => (
-                        <FormItem>
-                           <FormLabel>Term</FormLabel>
-                           <FormControl>
-                              <Editor {...field} />
-                           </FormControl>
-                           <FormMessage />
-                        </FormItem>
-                     )}
-                  />
+                     <h1>Product Info</h1>
 
-                  <div>
-                     <h2>Pricing</h2>
-                     <div className="row flex max-w-lg flex-wrap gap-3">
-                        {pricingFields.map((field, index) => (
+                     <div className="max-w-md space-y-8">
+                        <FormField
+                           control={form.control}
+                           name="summary"
+                           render={({ field }) => (
+                              <FormItem>
+                                 <FormLabel>Summary</FormLabel>
+                                 <FormControl>
+                                    <Input placeholder="Summary" type="text" {...field} />
+                                 </FormControl>
+                                 <FormMessage />
+                              </FormItem>
+                           )}
+                        />
+
+                        <h2>Additional Details</h2>
+
+                        {fields.map((field, index) => (
                            <div key={field.id} className="row mt-5 flex items-end space-x-5">
                               <FormField
                                  control={form.control}
-                                 name={`options.${index}.enabled`}
+                                 name={`additionalInformation.${index}.attribute`}
                                  render={({ field }) => (
                                     <FormItem>
+                                       <FormLabel>Attribute</FormLabel>
                                        <FormControl>
-                                          <Switch
-                                             className="mb-2"
-                                             checked={field.value}
-                                             onCheckedChange={field.onChange}
-                                          />
+                                          <Input placeholder="Attribute" type="text" {...field} />
                                        </FormControl>
                                        <FormMessage />
                                     </FormItem>
                                  )}
                               />
+
                               <FormField
                                  control={form.control}
-                                 name={`options.${index}.price`}
-                                 disabled={!form.getValues(`options.${index}.enabled`)}
+                                 name={`additionalInformation.${index}.value`}
                                  render={({ field }) => (
                                     <FormItem>
-                                       <div className="row flex items-center rounded-sm border px-2">
-                                          <FormControl>
-                                             <Input
-                                                placeholder="Price"
-                                                type="text"
-                                                {...field}
-                                                className="max-w-[100px] border-none"
-                                             />
-                                          </FormControl>
-                                          <div>
-                                             <p className="text-xs">
-                                                / {form.getValues(`options.${index}.duration`)}{' '}
-                                                month
-                                             </p>
-                                          </div>
-                                       </div>
+                                       <FormLabel>Value</FormLabel>
+                                       <FormControl>
+                                          <Input placeholder="Value" type="text" {...field} />
+                                       </FormControl>
                                        <FormMessage />
                                     </FormItem>
                                  )}
                               />
+
+                              <Button
+                                 type="button"
+                                 variant={'outline'}
+                                 onClick={() => remove(index)}
+                              >
+                                 <TrashIcon />
+                              </Button>
                            </div>
                         ))}
-                     </div>
-                  </div>
 
-                  <Button
-                     type="submit"
-                     className="w-full max-w-md"
-                     disabled={form.formState.isSubmitting}
-                  >
-                     {form.formState.isSubmitting ? '...' : 'Save'}
-                  </Button>
-               </form>
-            </Form>
+                        <Button
+                           type="button"
+                           className="w-full"
+                           onClick={() =>
+                              append({
+                                 attribute: '',
+                                 value: ''
+                              })
+                           }
+                        >
+                           <PlusCircledIcon className="mr-2" />
+                           Add Detail
+                        </Button>
+                     </div>
+
+                     <FormField
+                        control={form.control}
+                        name="term"
+                        render={({ field }) => (
+                           <FormItem>
+                              <FormLabel>Term</FormLabel>
+                              <FormControl>
+                                 <Editor {...field} />
+                              </FormControl>
+                              <FormMessage />
+                           </FormItem>
+                        )}
+                     />
+
+                     <div>
+                        <h2>Pricing</h2>
+                        <div className="row flex max-w-lg flex-wrap gap-3">
+                           {pricingFields.map((field, index) => (
+                              <div key={field.id} className="row mt-5 flex items-end space-x-5">
+                                 <FormField
+                                    control={form.control}
+                                    name={`options.${index}.enabled`}
+                                    render={({ field }) => (
+                                       <FormItem>
+                                          <FormControl>
+                                             <Switch
+                                                className="mb-2"
+                                                checked={field.value}
+                                                onCheckedChange={field.onChange}
+                                             />
+                                          </FormControl>
+                                          <FormMessage />
+                                       </FormItem>
+                                    )}
+                                 />
+                                 <FormField
+                                    control={form.control}
+                                    name={`options.${index}.price`}
+                                    disabled={!form.getValues(`options.${index}.enabled`)}
+                                    render={({ field }) => (
+                                       <FormItem>
+                                          <div className="row flex items-center rounded-sm border px-2">
+                                             <FormControl>
+                                                <Input
+                                                   placeholder="Price"
+                                                   type="text"
+                                                   {...field}
+                                                   className="max-w-[100px] border-none"
+                                                />
+                                             </FormControl>
+                                             <div>
+                                                <p className="text-xs">
+                                                   / {form.getValues(`options.${index}.duration`)}{' '}
+                                                   month
+                                                </p>
+                                             </div>
+                                          </div>
+                                          <FormMessage />
+                                       </FormItem>
+                                    )}
+                                 />
+                              </div>
+                           ))}
+                        </div>
+                     </div>
+
+                     <Button
+                        type="submit"
+                        className="w-full max-w-md"
+                        disabled={form.formState.isSubmitting}
+                        variant="brand"
+                     >
+                        {form.formState.isSubmitting ? '...' : 'Save'}
+                     </Button>
+                  </form>
+               </Form>
+            </div>
+         </div>
+
+         <div className="sticky top-24 hidden h-[50vh] w-1/2 items-center justify-center rounded-md border border-dashed md:flex">
+            <h2>Preview</h2>
          </div>
       </div>
    );

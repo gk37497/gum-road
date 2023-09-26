@@ -1,10 +1,9 @@
-import PageTitle from '@/components/common/page-title';
 import { cn } from '@/lib/utils';
 import { Metadata } from 'next';
 
+import DashboardHeader from '@/components/common/dashboard-header';
 import { DataTable } from '@/components/common/table/data-table';
 import { buttonVariants } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
 import { getUserAffiliateList } from '@/lib/api/server/apis';
 import { getCurrentUser } from '@/lib/auth';
 import { columns } from '@/sections/dashboard/affiliate/columns';
@@ -32,17 +31,14 @@ export default async function Page() {
 
    return (
       <>
-         <div className="row sticky top-0 flex w-full items-center justify-between">
-            <PageTitle title="Affiliate" />
+         <DashboardHeader title="Affiliates">
             <Link
                href="/dashboard/affiliate/add"
-               className={cn(buttonVariants({ variant: 'default' }), 'mr-8')}
+               className={cn(buttonVariants({ variant: 'brand' }))}
             >
-               Add new affiliate
+               Add new
             </Link>
-         </div>
-
-         <Separator />
+         </DashboardHeader>
 
          <Suspense>
             <div className="p-8">
