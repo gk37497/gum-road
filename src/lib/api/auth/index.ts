@@ -81,5 +81,5 @@ export async function refreshToken(token: string) {
       data: { token }
    };
 
-   return fetcherWithBasicAuth(config);
+   return fetcherWithBasicAuth<{ accessToken: string }>(config);
 }

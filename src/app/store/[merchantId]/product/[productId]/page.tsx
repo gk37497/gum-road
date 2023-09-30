@@ -1,5 +1,7 @@
 import ProductDetail from '@/components/common/product/product-detail';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getProductById } from '@/lib/api/server/apis';
+import { notFound } from 'next/navigation';
 import { Suspense } from 'react';
 
 type Props = {
@@ -19,11 +21,17 @@ async function getProduct(id: string) {
 }
 
 export default async function ProductDetailPage({ params }: Props) {
-   const { productId } = params;
-   const product = await getProduct(productId);
    return (
-      <div>
-         <Suspense>{product && <ProductDetail product={product} />}</Suspense>
-      </div>
+      <Suspense fallback={<Skeleton className="h-full w-full" />}>
+         <Detail productId={params.productId} />
+      </Suspense>
    );
+}
+
+async function Detail({ productId }: { productId: string }) {
+   const product = await getProduct(productId);
+
+   if (!product) return notFound();
+
+   return <ProductDetail product={product} />;
 }

@@ -1,3 +1,9 @@
+import ProductDetail from '@/components/common/product/product-detail';
+import { Skeleton } from '@/components/ui/skeleton';
+import { getAffiliateById } from '@/lib/api/server/apis';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+
 type Props = {
    params: {
       merchantId: string;
@@ -5,13 +11,27 @@ type Props = {
    };
 };
 
-export default function AffiliateDetailPage({ params }: Props) {
-   const { affiliateId, merchantId } = params;
+async function getAffiliate(id: string) {
+   const res = await getAffiliateById(id);
+   if (res.data.success) {
+      return res.data.body?.affiliate;
+   } else {
+      return null;
+   }
+}
+
+export default async function AffiliateDetailPage({ params }: Props) {
    return (
-      <div>
-         <div>
-            Merchant {merchantId} Affiliate {affiliateId}
-         </div>
-      </div>
+      <Suspense fallback={<Skeleton className="h-full w-full" />}>
+         <Detail affiliateId={params.affiliateId} />
+      </Suspense>
    );
+}
+
+async function Detail({ affiliateId }: { affiliateId: string }) {
+   const affiliate = await getAffiliate(affiliateId);
+
+   if (!affiliate) return notFound();
+
+   return <ProductDetail product={affiliate.product} />;
 }

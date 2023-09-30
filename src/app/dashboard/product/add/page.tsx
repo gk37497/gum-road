@@ -5,7 +5,7 @@ export default function AddProductPage() {
    return (
       <>
          <DashboardHeader title="New Product" />
-         <div className="p-8">
+         <div>
             <ProductForm />
          </div>
       </>

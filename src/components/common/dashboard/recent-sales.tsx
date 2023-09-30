@@ -6,8 +6,8 @@ import { fDate } from '@/utils/format-time';
 export function RecentSales({ transactions }: { transactions: Transaction[] }) {
    return (
       <div className="space-y-8">
-         {transactions.map((transaction) => (
-            <div className="flex items-center" key={transaction.customerEmail}>
+         {transactions.map((transaction, i) => (
+            <div className="flex items-center" key={i}>
                <Avatar className="h-8 w-8">
                   <AvatarImage src="/avatars/01.png" alt="Avatar" />
                   <AvatarFallback>

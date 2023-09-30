@@ -2,6 +2,7 @@ import DashboardHeader from '@/components/common/dashboard-header';
 import ProductTabs from '@/components/common/dashboard/product-tabs';
 import { buttonVariants } from '@/components/ui/button';
 import { getCurrentUser } from '@/lib/auth';
+import AffiliatesViewSkeleton from '@/sections/dashboard/affiliates-skeleton';
 import AffiliateList from '@/sections/dashboard/products/affiliate-list';
 import ProductList from '@/sections/dashboard/products/product-list';
 import Link from 'next/link';
@@ -55,13 +56,13 @@ export default async function Page({ params }: Props) {
             </div>
          </DashboardHeader>
 
-         <div className="p-8 md:pt-28">
+         <div className="pt-24">
             {tab === 'products' ? (
-               <Suspense>
+               <Suspense fallback={<AffiliatesViewSkeleton />}>
                   <ProductList />
                </Suspense>
             ) : (
-               <Suspense>
+               <Suspense fallback={<AffiliatesViewSkeleton />}>
                   <AffiliateList />
                </Suspense>
             )}

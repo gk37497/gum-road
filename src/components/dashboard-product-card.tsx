@@ -13,7 +13,7 @@ export default function DashboardProductCard({ product }: { product: Product }) 
             <Image src={product.thumbnail.tablet} alt={product.title} fill />
          </div>
          <div className={cn(className, 'items-left flex')}>
-            <Link href={`/store/6513cd43bb134393a3547834/product/${product.id}`}>
+            <Link href={`/store/6513cd43bb134393a3547834/product/${product.uid}`}>
                <div className="font-light underline">{product.title}</div>
             </Link>
          </div>
@@ -31,8 +31,8 @@ export default function DashboardProductCard({ product }: { product: Product }) 
          </div>
          <div className={cn(className, 'lg:justify-center')}>
             <h2 className="mb-1 text-xs font-bold lg:hidden">Price</h2>
-            {toCurrencyString(product.option[0].price)} / {product.option[0].duration}{' '}
-            {product.option[0].type}
+            {toCurrencyString(product.option[0]?.price)} / {product.option[0]?.duration}{' '}
+            {product.option[0]?.type}
          </div>
       </div>
    );

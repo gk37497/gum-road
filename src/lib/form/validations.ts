@@ -1,6 +1,6 @@
 import * as z from 'zod';
 
-const MAX_FILE_SIZE = 500000;
+const MAX_FILE_SIZE = 5000000;
 const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/JPEG'];
 
 export const addProductformSchema = z.object({
@@ -8,13 +8,13 @@ export const addProductformSchema = z.object({
    title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }),
    price: z.string().min(4, { message: 'Price must be at least 1 character long.' }),
    description: z.string().min(10, { message: 'Description must be at least 3 characters long.' }),
-   term: z.string(),
+   term: z.string().min(30, { message: 'Term must be at least 30 characters long.' }),
    cover: z
       .object({
          file: z
             .any()
             .refine((file) => !!file, 'Image is required.')
-            .refine((file) => file?.size <= MAX_FILE_SIZE, `Max file size is 5MB.`)
+            .refine((file) => file?.size <= MAX_FILE_SIZE, { message: 'Max file size is 5MB.' })
             .refine(
                (file) => ACCEPTED_IMAGE_TYPES.includes(file?.type),
                '.jpg, .jpeg, .png and .webp files are accepted.'
@@ -35,21 +35,23 @@ export const addProductformSchema = z.object({
          preview: z.string()
       })
       .optional(),
-   summary: z.string(),
-   additionalInformation: z.array(
-      z.object({
+   summary: z.string().min(10, { message: 'Summary must be at least 10 characters long.' }),
+   additionalInformation: z
+      .object({
          attribute: z.string(),
          value: z.string()
       })
-   ),
-   options: z.array(
-      z.object({
+      .array()
+      .min(1, { message: 'At least one additional information is required.' }),
+   options: z
+      .object({
          price: z.string().default(''),
          duration: z.string(),
          type: z.string(),
          enabled: z.boolean().default(false).optional()
       })
-   )
+      .array()
+      .min(1, { message: 'At least one option is required.' })
 });
 
 export const addAffliateFormSchema = z.object({

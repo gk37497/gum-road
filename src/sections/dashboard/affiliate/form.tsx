@@ -18,6 +18,7 @@ import { addAffliateDefaults } from '@/lib/form/defaults';
 import { TAddAffliate } from '@/lib/form/types';
 import { addAffliateFormSchema } from '@/lib/form/validations';
 import { AddAffiliatePayload, Product } from '@/lib/types';
+import { getError } from '@/utils/api-error';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
@@ -49,6 +50,22 @@ export default function AffiliateForm({ products }: Props) {
    });
 
    const onSubmit = async (data: TAddAffliate) => {
+      const list = data.list
+         .filter((item) => item.enabled)
+         .map((item) => ({
+            productId: item.productId,
+            commission: item.commission || 0
+         }));
+
+      if (!list.length) {
+         toast({
+            title: 'Error',
+            description: 'Please select at least one product',
+            variant: 'destructive'
+         });
+         return;
+      }
+
       const payload: AddAffiliatePayload = {
          email: data.email,
          list: data.list
@@ -72,7 +89,7 @@ export default function AffiliateForm({ products }: Props) {
       } catch (error) {
          toast({
             title: 'Error',
-            description: error?.toString(),
+            description: getError(error),
             variant: 'destructive'
          });
       }
@@ -88,11 +105,11 @@ export default function AffiliateForm({ products }: Props) {
    }
 
    return (
-      <div className="w-full">
+      <div className="w-full max-w-2xl">
          <Form {...form}>
             <form
                onSubmit={form.handleSubmit(onSubmit)}
-               className="w-full space-y-8 overflow-hidden rounded-md"
+               className="w-full space-y-8 overflow-hidden"
             >
                <FormField
                   control={form.control}
@@ -180,7 +197,11 @@ export default function AffiliateForm({ products }: Props) {
                   </Card>
                </div>
 
-               <Button type="submit" className="w-full" disabled={form.formState.isSubmitting}>
+               <Button
+                  type="submit"
+                  className="w-full"
+                  disabled={form.formState.isSubmitting || !form.formState.isValid}
+               >
                   {form.formState.isSubmitting ? 'Loading...' : 'Create'}
                </Button>
             </form>

@@ -1,4 +1,5 @@
 import { CardItem } from '@/components/common/dashboard/card-item';
+import EmptyView from '@/components/common/empty-view';
 import DashboardProductCard from '@/components/dashboard-product-card';
 import { getUserProducts } from '@/lib/api/server/apis';
 
@@ -12,8 +13,10 @@ export default async function ProductList() {
 
    if (!res) return null;
 
+   if (Array.isArray(res)) return <EmptyView />;
+
    return (
-      <>
+      <div className="p-8">
          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {Object.values(res.cards).map((item, i) => {
                return <CardItem key={i} item={item[0]} />;
@@ -35,6 +38,6 @@ export default async function ProductList() {
                ))}
             </div>
          </div>
-      </>
+      </div>
    );
 }

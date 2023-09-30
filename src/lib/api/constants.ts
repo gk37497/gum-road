@@ -22,6 +22,7 @@ export const endpoints = {
    affiliate: '/affiliate',
    'affliate-list': '/affiliate/merchant',
    'affliate-list-own': '/affiliate/own',
+   'affiliate-by-id': '/affiliate/uid',
 
    // Checkout
    'checkout-product': '/create-invoice',

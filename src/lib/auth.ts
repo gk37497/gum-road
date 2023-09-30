@@ -1,6 +1,21 @@
 import { NextAuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { login, register } from './api/auth';
+import { login, refreshToken, register } from './api/auth';
+
+// eslint-disable-next-line no-unused-vars
+async function refreshAccessToken(token: string) {
+   try {
+      const res = await refreshToken(token);
+      if (res.status === 200) {
+         return {
+            id: 'fake_id',
+            accessToken: res.data.body?.accessToken
+         };
+      }
+   } catch (error) {
+      throw new Error(error?.toString());
+   }
+}
 
 export const authOptions: NextAuthOptions = {
    secret: process.env.NEXTAUTH_SECRET,
@@ -32,7 +47,8 @@ export const authOptions: NextAuthOptions = {
                      if (res.status === 200) {
                         return {
                            id: 'fake_id',
-                           accessToken: res.data.body?.accessToken!
+                           accessToken: res.data.body?.accessToken!,
+                           refreshToken: res.data.body?.refreshToken!
                         };
                      }
                   } catch (error) {
@@ -46,7 +62,8 @@ export const authOptions: NextAuthOptions = {
                      if (res.status === 200) {
                         return {
                            id: 'fake_id',
-                           accessToken: res.data.body?.accessToken!
+                           accessToken: res.data.body?.accessToken!,
+                           refreshToken: res.data.body?.refreshToken!
                         };
                      }
                   } catch (error) {
@@ -66,6 +83,7 @@ export const authOptions: NextAuthOptions = {
       async jwt({ token, user }) {
          if (user) {
             token.accessToken = user.accessToken;
+            token.refreshToken = user.refreshToken;
          }
 
          return token;
@@ -74,6 +92,7 @@ export const authOptions: NextAuthOptions = {
       session({ session, token }) {
          if (token) {
             session.accessToken = token.accessToken;
+            session.refreshToken = token.refreshToken;
          }
 
          return session;

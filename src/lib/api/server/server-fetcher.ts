@@ -1,5 +1,6 @@
 import { getCurrentUser } from '@/lib/auth';
 import { APIResponse } from '@/lib/types';
+import { getError } from '@/utils/api-error';
 import { redirect } from 'next/navigation';
 
 type HttpMethods = 'GET' | 'POST' | 'PUT' | 'DELETE';
@@ -89,10 +90,6 @@ export async function appServerFetch<T, F = undefined>({
 
       return { status: result.status, data: await result.json() };
    } catch (error: any) {
-      throw {
-         status: error.status || 500,
-         message: JSON.stringify(error),
-         endpoint
-      };
+      return { status: 500, data: { success: false, message: getError(error) } };
    }
 }

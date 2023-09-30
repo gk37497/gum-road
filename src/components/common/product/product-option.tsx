@@ -1,15 +1,19 @@
+import { Separator } from '@/components/ui/separator';
 import { Option } from '@/lib/types';
+import toCurrencyString from '@/utils/format-number';
 
 type Props = {
    option: Option;
 };
 
 export default function ProductOption({ option }: Props) {
+   if (!option) return null;
+
    return (
-      <div className="row relative flex items-center border border-black bg-pink-500 px-3 py-1.5">
-         <p className="text-xs font-light">{JSON.stringify(option.price)}₮ /</p>
-         <p className="pl-1 pr-2 text-xs font-light">{option.duration} month</p>
-         <div className="absolute -right-2.5 h-5 w-5 rotate-45 border-b border-l border-black bg-background" />
+      <div className="relative flex h-12 w-full items-center justify-between px-5">
+         <p className="flex-1 text-center text-sm">{toCurrencyString(option.price)}</p>
+         <Separator orientation="vertical" className="h-full" />
+         <p className="flex-1 text-center text-sm text-brand">{option.duration} month</p>
       </div>
    );
 }

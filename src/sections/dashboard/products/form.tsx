@@ -19,6 +19,7 @@ import { TAddProduct } from '@/lib/form/types';
 import { addProductformSchema } from '@/lib/form/validations';
 import { AddProductPayload } from '@/lib/types';
 import { cn } from '@/lib/utils';
+import { getError } from '@/utils/api-error';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { PlusCircledIcon, TrashIcon } from '@radix-ui/react-icons';
 import { useRouter } from 'next/navigation';
@@ -55,7 +56,7 @@ export default function ProductForm() {
       } catch (error) {
          toast({
             title: 'Uh oh! Something went wrong.',
-            description: error?.toString(),
+            description: getError(error),
             variant: 'destructive'
          });
       }
@@ -72,11 +73,6 @@ export default function ProductForm() {
          return;
       }
 
-      const coverImageId = await uploadImage(values.cover?.file, 'cover');
-      const thumbnailId = await uploadImage(values.thumbnail?.file, 'thumbnail');
-
-      if (!coverImageId || !thumbnailId) return;
-
       const options = values.options
          .filter((option) => option.enabled)
          .map((option) => ({
@@ -84,6 +80,20 @@ export default function ProductForm() {
             price: option.price,
             type: option.type
          }));
+
+      if (options.length === 0) {
+         toast({
+            title: 'Uh oh! Something went wrong.',
+            description: 'At least one option is required.',
+            variant: 'destructive'
+         });
+         return;
+      }
+
+      const coverImageId = await uploadImage(values.cover?.file, 'cover');
+      const thumbnailId = await uploadImage(values.thumbnail?.file, 'thumbnail');
+
+      if (!coverImageId || !thumbnailId) return;
 
       const addProductPayload: AddProductPayload = {
          title: values.title,
@@ -132,8 +142,8 @@ export default function ProductForm() {
    );
 
    return (
-      <div className="flex space-x-8">
-         <div className="w-full md:w-1/2">
+      <div className="relative -mt-12 grid space-x-8 md:grid-cols-2 md:pr-8">
+         <div className="w-full bg-black px-8 py-20">
             <div className={cn('grid gap-10')}>
                <Form {...form}>
                   <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
@@ -197,7 +207,7 @@ export default function ProductForm() {
                         control={form.control}
                         name="cover"
                         render={({ field }) => (
-                           <FormItem className="max-w-[300px]">
+                           <FormItem className="max-w-[400px]">
                               <FormLabel>Cover</FormLabel>
                               <FormControl>
                                  <Upload
@@ -207,7 +217,9 @@ export default function ProductForm() {
                                     className="min-h-36"
                                  />
                               </FormControl>
-                              <FormMessage />
+                              <p className="text-[0.8rem] font-medium text-destructive">
+                                 {form.formState.errors.cover?.file?.message?.toString()}
+                              </p>
                            </FormItem>
                         )}
                      />
@@ -225,7 +237,9 @@ export default function ProductForm() {
                                     onDrop={(a) => handleDropFile(a, 'thumbnail')}
                                  />
                               </FormControl>
-                              <FormMessage />
+                              <p className="text-[0.8rem] font-medium text-destructive">
+                                 {form.formState.errors.thumbnail?.file?.message?.toString()}
+                              </p>
                            </FormItem>
                         )}
                      />
@@ -378,7 +392,7 @@ export default function ProductForm() {
             </div>
          </div>
 
-         <div className="sticky top-24 hidden h-[50vh] w-1/2 items-center justify-center rounded-md border border-dashed md:flex">
+         <div className="sticky top-40 mr-8 hidden h-[50vh] items-center justify-center rounded-md border border-dashed md:flex">
             <h2>Preview</h2>
          </div>
       </div>

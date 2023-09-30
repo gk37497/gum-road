@@ -25,7 +25,7 @@ export default async function PayoutsView() {
          </div>
 
          <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-7">
-            <Card className="col-span-1 md:col-span-4">
+            <Card className="col-span-1 h-fit md:col-span-4">
                <CardHeader>
                   <CardTitle>Overview</CardTitle>
                </CardHeader>

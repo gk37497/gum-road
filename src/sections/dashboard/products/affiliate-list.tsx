@@ -1,5 +1,6 @@
 import AffiliateCard from '@/components/common/affiliate-card';
 import { CardItem } from '@/components/common/dashboard/card-item';
+import EmptyView from '@/components/common/empty-view';
 import { getUserAffiliates } from '@/lib/api/server/apis';
 
 async function getAffiliates() {
@@ -11,10 +12,10 @@ export default async function AffiliateList() {
    const res = await getAffiliates();
 
    if (!res) return null;
-   if (Array.isArray(res)) return <div className="min-h-[100vh]">Empty</div>;
+   if (Array.isArray(res)) return <EmptyView />;
 
    return (
-      <div className="pt-20 md:pt-0">
+      <div className="p-8">
          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {Object.values(res.cards).map((item, i) => {
                return <CardItem key={i} item={item[0]} />;

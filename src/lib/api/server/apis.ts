@@ -1,4 +1,5 @@
 import {
+   AffiliateDetail,
    Affliate,
    Cards,
    Customer,
@@ -49,13 +50,21 @@ export function getUserAffiliateList() {
 export function getMerchantProducts(id: string) {
    return appServerFetch<MerchantProductsResponse>({
       endpoint: endpoints['merchant-product-list'] + '/' + id,
-      type: 'basic-auth'
+      type: 'basic-auth',
+      cache: 'no-cache'
    });
 }
 
 export function getProductById(id: string) {
    return appServerFetch<{ product: MerchantProduct }>({
       endpoint: endpoints['product-get-by-id'] + '/' + id,
+      type: 'basic-auth'
+   });
+}
+
+export function getAffiliateById(id: string) {
+   return appServerFetch<AffiliateDetail>({
+      endpoint: endpoints['affiliate-by-id'] + '/' + id,
       type: 'basic-auth'
    });
 }
