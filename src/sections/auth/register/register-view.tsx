@@ -1,7 +1,10 @@
+import AuthLayout from '../layout';
+import { SignUpForm } from './user-register-form';
+
 export default function RegisterView() {
    return (
-      <main className="flex min-h-screen flex-col items-center justify-between p-24">
-         <h1>Register</h1>
-      </main>
+      <AuthLayout type="signup">
+         <SignUpForm />
+      </AuthLayout>
    );
 }

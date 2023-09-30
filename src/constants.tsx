@@ -8,7 +8,7 @@ export const dashboardLinks = [
       title: 'Affiliates'
    },
    {
-      href: '/dashboard/product',
+      href: '/dashboard/product/products',
       title: 'Products'
    }
 ];

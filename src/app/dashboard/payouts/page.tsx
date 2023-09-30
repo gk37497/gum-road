@@ -6,11 +6,18 @@ import Link from 'next/link';
 export default function Page() {
    return (
       <>
-         <DashboardHeader title="Payouts">
-            <Link href="/dashboard/affiliate/add" className={buttonVariants({ variant: 'brand' })}>
-               Widthdraw
-            </Link>
-         </DashboardHeader>
+         <DashboardHeader
+            title="Payouts"
+            button={
+               <Link
+                  href="/dashboard/affiliate/add"
+                  className={buttonVariants({ variant: 'brand' })}
+               >
+                  Widthdraw
+               </Link>
+            }
+         />
+
          <PayoutsView />
       </>
    );

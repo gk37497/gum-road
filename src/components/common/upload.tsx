@@ -14,11 +14,14 @@ export interface UploadProps extends DropzoneOptions {
    onUpload?: VoidFunction;
    onRemove?: () => void;
    onRemoveAll?: VoidFunction;
+   className?: string;
 }
 
+import { cn } from '@/lib/utils';
+import { CameraIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 
-export default function Upload({ helperText, file, ...other }: UploadProps) {
+export default function Upload({ helperText, file, className, ...other }: UploadProps) {
    const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
       accept: { 'image/*': [] },
       onDrop: (acceptedFiles) => console.log(acceptedFiles),
@@ -32,11 +35,16 @@ export default function Upload({ helperText, file, ...other }: UploadProps) {
    ));
 
    return (
-      <section className="container rounded-md border p-3 text-xs">
+      <section className={cn('container rounded-md border p-3 text-xs', className)}>
          <div {...getRootProps({ className: 'dropzone' })}>
             <input {...getInputProps()} />
             {file && <Image src={file} alt="asdds" width={200} height={200} />}
-            {!file && <p>Drag drop some files here, or click to select files</p>}
+            {!file && (
+               <>
+                  <CameraIcon className="h-6 w-6" />
+                  <p>Drag drop some files here, or click to select files</p>
+               </>
+            )}
          </div>
          <aside>
             <ul>{files}</ul>

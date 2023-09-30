@@ -16,6 +16,12 @@ export const addProductDefaults: TAddProduct = {
    options: [
       {
          price: '',
+         duration: '1',
+         type: 'month',
+         enabled: false
+      },
+      {
+         price: '',
          duration: '3',
          type: 'month',
          enabled: false

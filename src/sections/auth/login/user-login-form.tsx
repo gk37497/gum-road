@@ -1,11 +1,5 @@
 'use client';
-
-import * as React from 'react';
-
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
-
 import {
    Form,
    FormControl,
@@ -14,19 +8,22 @@ import {
    FormLabel,
    FormMessage
 } from '@/components/ui/form';
+import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
+import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 
-const formSchema = z.object({
+export const formSchema = z.object({
    mail: z.string().email(),
    password: z.string()
 });
 
-interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+export interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
    const { toast } = useToast();
@@ -87,6 +84,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                      </FormItem>
                   )}
                />
+
                <FormField
                   control={form.control}
                   name="password"
@@ -100,6 +98,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                      </FormItem>
                   )}
                />
+
                <Button type="submit" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? '...' : 'Sign in'}
                </Button>
@@ -108,16 +107,20 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   <div className="absolute inset-0 flex items-center">
                      <span className="w-full border-t" />
                   </div>
+
                   <div className="relative flex justify-center text-xs uppercase">
                      <span className="bg-background px-2 text-muted-foreground">
-                        Or continue with
+                        I don&rsquo;t have an account
                      </span>
                   </div>
                </div>
 
-               <Button className="w-full" variant="outline" type="button">
-                  Google
-               </Button>
+               <div />
+               <Link href="/auth/register">
+                  <Button className="w-full" variant="outline" type="button">
+                     Register
+                  </Button>
+               </Link>
             </form>
          </Form>
       </div>

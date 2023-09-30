@@ -21,12 +21,12 @@ export default function ProductCard({ product }: Props) {
                <h1 className="text-sm font-light">{product.title}</h1>
             </div>
 
-            <div className="row flex items-center justify-between border-y">
-               <div className="row flex w-full items-center space-x-3 border-r p-5">
+            <div className="flex flex-wrap border-t">
+               <div className="flex w-1/2 flex-row items-center justify-center space-x-3 border-r">
                   <StarIcon />
                   <p className="text-sm font-light">No ratings</p>
                </div>
-               <div className="w-full p-2">
+               <div className="w-1/2 p-2">
                   <ProductOption option={product.option[0]} />
                </div>
             </div>

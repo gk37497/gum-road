@@ -100,7 +100,7 @@ export default function CheckoutView() {
                      </div>
 
                      <div className="space-y-2 text-right">
-                        <h4 className="text-base font-light">{option.price.$numberDecimal}₮</h4>
+                        <h4 className="text-base font-light">{option.price}₮</h4>
                         <p className="text-sm font-light">
                            {option.duration} {option.type}
                         </p>
@@ -117,7 +117,7 @@ export default function CheckoutView() {
 
             <div className="row flex items-center justify-between border-t border-black p-5">
                <h1 className="text-lg font-bold">Total</h1>
-               <h4 className="text-lg font-bold">{option.price.$numberDecimal}₮</h4>
+               <h4 className="text-lg font-bold">{option.price}₮</h4>
             </div>
          </Card>
 

@@ -1,6 +1,6 @@
 import { NextAuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { login } from './api/auth';
+import { login, register } from './api/auth';
 
 export const authOptions: NextAuthOptions = {
    secret: process.env.NEXTAUTH_SECRET,
@@ -15,20 +15,43 @@ export const authOptions: NextAuthOptions = {
                type: 'text',
                placeholder: 'email'
             },
-            password: { label: 'Password', type: 'password' }
+            password: { label: 'Password', type: 'password' },
+            otp: { label: 'OTP', type: 'text' },
+            token: { label: 'Token', type: 'text' }
          },
          async authorize(credentials) {
-            if (credentials?.email && credentials?.password) {
-               try {
-                  const res = await login(credentials);
-                  if (res.status === 200) {
-                     return {
-                        id: 'fake_id',
-                        accessToken: res.data.body?.accessToken!
-                     };
+            if (credentials?.otp) {
+               if (credentials?.email && credentials?.password) {
+                  try {
+                     const res = await register({
+                        email: credentials.email,
+                        password: credentials.password,
+                        otpCode: credentials.otp,
+                        token: credentials.token
+                     });
+                     if (res.status === 200) {
+                        return {
+                           id: 'fake_id',
+                           accessToken: res.data.body?.accessToken!
+                        };
+                     }
+                  } catch (error) {
+                     throw new Error(error?.toString());
                   }
-               } catch (error) {
-                  throw new Error('Invalid credentials');
+               }
+            } else {
+               if (credentials?.email && credentials?.password) {
+                  try {
+                     const res = await login(credentials);
+                     if (res.status === 200) {
+                        return {
+                           id: 'fake_id',
+                           accessToken: res.data.body?.accessToken!
+                        };
+                     }
+                  } catch (error) {
+                     throw new Error('Invalid credentials');
+                  }
                }
             }
             return null;

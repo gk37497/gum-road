@@ -204,6 +204,7 @@ export default function ProductForm() {
                                     {...field}
                                     file={field.value?.preview}
                                     onDrop={(a) => handleDropFile(a, 'cover')}
+                                    className="min-h-36"
                                  />
                               </FormControl>
                               <FormMessage />
@@ -291,12 +292,7 @@ export default function ProductForm() {
                         <Button
                            type="button"
                            className="w-full"
-                           onClick={() =>
-                              append({
-                                 attribute: '',
-                                 value: ''
-                              })
-                           }
+                           onClick={() => append({ attribute: '', value: '' })}
                         >
                            <PlusCircledIcon className="mr-2" />
                            Add Detail
@@ -350,7 +346,7 @@ export default function ProductForm() {
                                                    placeholder="Price"
                                                    type="text"
                                                    {...field}
-                                                   className="max-w-[100px] border-none"
+                                                   className="max-w-[100px] border-none focus-visible:outline-none focus-visible:ring-0"
                                                 />
                                              </FormControl>
                                              <div>

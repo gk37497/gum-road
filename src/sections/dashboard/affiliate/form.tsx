@@ -37,7 +37,7 @@ export default function AffiliateForm({ products }: Props) {
       defaultValues: {
          ...addAffliateDefaults,
          list: products.map((product) => ({
-            productId: product._id,
+            productId: product.id,
             enabled: false
          }))
       }

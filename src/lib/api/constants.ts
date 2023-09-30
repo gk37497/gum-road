@@ -1,7 +1,12 @@
 export const endpoints = {
    // Auth
    login: '/auth/login',
-   register: '/auth/register',
+   googleLogin: '/auth/google',
+   register: '/auth/signup',
+   sendOTP: '/otp/send',
+   forgotPassword: '/auth/forgot-password',
+   resetPassword: '/auth/password-reset',
+   refreshToken: '/auth/refresh-token',
 
    // Products
    product: '/product',
@@ -16,9 +21,16 @@ export const endpoints = {
    // Affiliate
    affiliate: '/affiliate',
    'affliate-list': '/affiliate/merchant',
+   'affliate-list-own': '/affiliate/own',
 
    // Checkout
    'checkout-product': '/create-invoice',
    'checkout-affliate': '/create-invoice/affiliate',
-   'check-invoice': '/qpay/check/transaction'
+   'check-invoice': '/qpay/check/transaction',
+
+   // Payouts
+   payouts: '/payout',
+
+   // Customer
+   customer: '/customer'
 };

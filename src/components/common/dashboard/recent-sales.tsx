@@ -1,53 +1,34 @@
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Transaction } from '@/lib/types';
+import toCurrencyString from '@/utils/format-number';
+import { fDate } from '@/utils/format-time';
 
-// deno 6 user
-const users = [
-   {
-      name: 'Olivia Martin',
-      email: 'olivia.martin@email.com',
-      amount: 1999
-   },
-   {
-      name: 'Jackson Lee',
-      email: 'jackson.lee@email.com',
-      amount: 39
-   },
-   {
-      name: 'Isabella Nguyen',
-      email: 'jackson.lee@email.com',
-      amount: 299
-   },
-   {
-      name: 'William Kim',
-      email: 'jackson.lee@email.com',
-      amount: 99
-   },
-   {
-      name: 'Sofia Davis',
-      email: 'jackson.lee@email.com',
-      amount: 39
-   }
-];
-
-export function RecentSales() {
+export function RecentSales({ transactions }: { transactions: Transaction[] }) {
    return (
       <div className="space-y-8">
-         {users.map((user) => (
-            <div className="flex items-center" key={user.name}>
-               <Avatar className="h-9 w-9">
+         {transactions.map((transaction) => (
+            <div className="flex items-center" key={transaction.customerEmail}>
+               <Avatar className="h-8 w-8">
                   <AvatarImage src="/avatars/01.png" alt="Avatar" />
                   <AvatarFallback>
-                     {user.name
+                     {transaction.customerEmail
                         .split(' ')
                         .map((name) => name[0])
                         .join('')}
                   </AvatarFallback>
                </Avatar>
+
                <div className="ml-4 space-y-1">
-                  <p className="text-sm font-medium leading-none">{user.name}</p>
-                  <p className="text-sm text-muted-foreground">{user.email}</p>
+                  <p className="text-xs font-medium leading-none md:text-sm">
+                     {transaction.customerEmail}
+                  </p>
+                  <p className="text-xs text-muted-foreground md:text-sm">
+                     {fDate(transaction.updatedAt)}
+                  </p>
                </div>
-               <div className="ml-auto font-medium">+${user.amount}</div>
+               <div className="ml-auto text-xs font-medium md:text-sm">
+                  +{toCurrencyString(transaction.totalAmount)}
+               </div>
             </div>
          ))}
       </div>

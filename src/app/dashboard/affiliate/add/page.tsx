@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 
 async function getProducts() {
    const respose = await getUserProducts();
-   return respose.data.body?.product || [];
+   return respose.data.body?.products || [];
 }
 
 export default async function NewAffiliateApp() {

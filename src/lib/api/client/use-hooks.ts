@@ -4,6 +4,7 @@ import {
    AddProductResponse,
    BuyProductPayload,
    BuyProductResponse,
+   Customer,
    UploadResponse
 } from '../../types';
 import { endpoints } from '../constants';
@@ -67,4 +68,12 @@ export function useCheckInvoiceIsPaid({ invoiceId }: { invoiceId?: string }) {
          enabled: !!invoiceId
       }
    );
+}
+
+export function useGetCustomerInfo() {
+   return useAppFetch<Customer>({
+      endpoint: endpoints['customer'],
+      queryKey: 'customer-info',
+      type: 'token'
+   });
 }
