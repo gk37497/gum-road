@@ -1,4 +1,5 @@
 import {
+   APIResponse,
    AddAffiliatePayload,
    AddProductPayload,
    AddProductResponse,
@@ -38,34 +39,39 @@ export function useAddAffliate() {
 }
 
 export function useCreateInvoiceByProduct() {
-   return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>(
-      {
-         endpoint: endpoints['checkout-product'],
-         queryKey: 'checkout-product',
-         type: 'basic-auth'
-      }
-   );
+   return useAppMutation<
+      { qpay: BuyProductResponse; transaction: { id: string; uid: string }; expires_in: number },
+      any,
+      BuyProductPayload
+   >({
+      endpoint: endpoints['checkout-product'],
+      queryKey: 'checkout-product',
+      type: 'basic-auth'
+   });
 }
 
 export function useCreateInvoiceByAffiliate() {
-   return useAppMutation<{ qpay: BuyProductResponse; transaction: string }, any, BuyProductPayload>(
-      {
-         endpoint: endpoints['checkout-affliate'],
-         queryKey: 'checkout-product',
-         type: 'basic-auth'
-      }
-   );
+   return useAppMutation<
+      { qpay: BuyProductResponse; transaction: { id: string; uid: string }; expires_in: number },
+      any,
+      BuyProductPayload
+   >({
+      endpoint: endpoints['checkout-affliate'],
+      queryKey: 'checkout-product',
+      type: 'basic-auth'
+   });
 }
 
 export function useCheckInvoiceIsPaid({ invoiceId }: { invoiceId?: string }) {
-   return useAppFetch<{ isPaid: boolean }>(
+   return useAppFetch<APIResponse<{ isPaid: boolean }>>(
       {
          endpoint: endpoints['check-invoice'] + `/${invoiceId}`,
          queryKey: `check-invoice/${invoiceId}`,
          type: 'basic-auth'
       },
       {
-         enabled: !!invoiceId
+         enabled: !!invoiceId,
+         refetchInterval: 5000
       }
    );
 }

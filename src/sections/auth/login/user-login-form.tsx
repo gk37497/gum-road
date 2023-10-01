@@ -1,5 +1,5 @@
 'use client';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import {
    Form,
    FormControl,
@@ -68,7 +68,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
    }
 
    return (
-      <div className={cn('grid gap-10', className)} {...props}>
+      <div className={cn(className)} {...props}>
          <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
                <FormField
@@ -85,42 +85,35 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   )}
                />
 
-               <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                     <FormItem>
-                        <FormLabel>Password</FormLabel>
-                        <FormControl>
-                           <Input placeholder="password" type="password" {...field} />
-                        </FormControl>
-                        <FormMessage />
-                     </FormItem>
-                  )}
-               />
+               <div className="space-y-2">
+                  <FormField
+                     control={form.control}
+                     name="password"
+                     render={({ field }) => (
+                        <FormItem>
+                           <FormLabel>Password</FormLabel>
+                           <FormControl>
+                              <Input placeholder="password" type="password" {...field} />
+                           </FormControl>
+                           <FormMessage />
+                        </FormItem>
+                     )}
+                  />
+                  <div className="flex justify-end text-xs">
+                     <Link
+                        className={buttonVariants({ variant: 'link' })}
+                        href={'/auth/forget-password'}
+                     >
+                        <p className="text-xs text-border underline">Forgot password?</p>
+                     </Link>
+                  </div>
+               </div>
 
                <Button type="submit" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? '...' : 'Sign in'}
                </Button>
 
-               <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                     <span className="w-full border-t" />
-                  </div>
-
-                  <div className="relative flex justify-center text-xs uppercase">
-                     <span className="bg-background px-2 text-muted-foreground">
-                        I don&rsquo;t have an account
-                     </span>
-                  </div>
-               </div>
-
                <div />
-               <Link href="/auth/register">
-                  <Button className="w-full" variant="outline" type="button">
-                     Register
-                  </Button>
-               </Link>
             </form>
          </Form>
       </div>

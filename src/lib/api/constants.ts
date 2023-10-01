@@ -7,6 +7,7 @@ export const endpoints = {
    forgotPassword: '/auth/forgot-password',
    resetPassword: '/auth/password-reset',
    refreshToken: '/auth/refresh-token',
+   checkEmail: '/auth/signup/token',
 
    // Products
    product: '/product',
@@ -23,6 +24,7 @@ export const endpoints = {
    'affliate-list': '/affiliate/merchant',
    'affliate-list-own': '/affiliate/own',
    'affiliate-by-id': '/affiliate/uid',
+   'affiliate-by-merchant': '/affiliate/list/uid',
 
    // Checkout
    'checkout-product': '/create-invoice',

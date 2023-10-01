@@ -33,5 +33,5 @@ async function Detail({ affiliateId }: { affiliateId: string }) {
 
    if (!affiliate) return notFound();
 
-   return <ProductDetail product={affiliate.product} />;
+   return <ProductDetail product={affiliate.product} affiliateId={affiliateId} />;
 }

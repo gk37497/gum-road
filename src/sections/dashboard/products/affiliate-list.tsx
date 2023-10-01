@@ -11,8 +11,7 @@ async function getAffiliates() {
 export default async function AffiliateList() {
    const res = await getAffiliates();
 
-   if (!res) return null;
-   if (Array.isArray(res)) return <EmptyView />;
+   if (!res) return <EmptyView />;
 
    return (
       <div className="p-8">

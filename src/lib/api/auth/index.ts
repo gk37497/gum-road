@@ -64,22 +64,32 @@ export async function forgotPassword(email: string) {
    return fetcherWithBasicAuth(config);
 }
 
-export async function resetPassword(params: { resetKey: string; newPassword: string }) {
+export async function resetPassword(params: { uid: string; newPassword: string }) {
    const config: AxiosRequestConfig = {
-      url: endpoints.resetPassword + `/${params.resetKey}`,
+      url: endpoints.resetPassword,
       method: 'POST',
       data: params
    };
 
-   return fetcherWithBasicAuth(config);
+   return fetcherWithBasicAuth<LoginResponseBody>(config);
 }
 
 export async function refreshToken(token: string) {
    const config: AxiosRequestConfig = {
       url: endpoints.refreshToken,
       method: 'POST',
-      data: { token }
+      headers: {
+         Authorization: `Bearer ${token}`
+      }
    };
 
-   return fetcherWithBasicAuth<{ accessToken: string }>(config);
+   return fetcherWithBasicAuth<{ accessToken: string; expires_in: number }>(config);
+}
+
+export async function checkEmailAndToken(email: string, token: string) {
+   const config: AxiosRequestConfig = {
+      url: endpoints.checkEmail + `/${token}` + `/${email}`
+   };
+
+   return fetcherWithBasicAuth<boolean>(config);
 }

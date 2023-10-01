@@ -11,27 +11,30 @@ import {
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { sendOTP } from '@/lib/api/auth';
+import { checkEmailAndToken, sendOTP } from '@/lib/api/auth';
 import { cn } from '@/lib/utils';
+import { getError } from '@/utils/api-error';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signIn } from 'next-auth/react';
 import { useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import OTPInput from 'react-otp-input';
 import * as z from 'zod';
 
 const formSchema = z.object({
    mail: z.string().email(),
    password1: z.string().min(4),
    password2: z.string().min(4),
-   otp: z.string().min(4),
-   isAccepted: z.boolean(),
-   token: z.string()
+   otp: z.string().min(6),
+   isAccepted: z.boolean()
 });
 
-interface SignUpFormProps extends React.HTMLAttributes<HTMLDivElement> {}
+interface SignUpFormProps extends React.HTMLAttributes<HTMLDivElement> {
+   token: string;
+}
 
-export function SignUpForm({ className, ...props }: SignUpFormProps) {
+export function SignUpForm({ className, token, ...props }: SignUpFormProps) {
    const { toast } = useToast();
    const [isOtpSent, setIsOtpSent] = useState(false);
    const [isOtpSending, setIsOtpSending] = useState(false);
@@ -56,7 +59,7 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
          email: values.mail,
          password: values.password1,
          otp: values.otp,
-         token: values.token
+         token
       };
 
       await signIn('Credentials', {
@@ -77,7 +80,11 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                });
          })
          .catch((error) => {
-            console.log(error);
+            toast({
+               title: 'Uh oh! Something went wrong.',
+               description: getError(error),
+               variant: 'destructive'
+            });
          });
    }
 
@@ -102,12 +109,9 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
          return;
       }
 
-      setIsOtpSending(true);
-
       const res = await sendOTP(values.mail);
       if (res.status === 200) {
          setIsOtpSent(true);
-         form.setValue('token', res.data.body?.foundOtp._id!);
          toast({
             title: 'OTP sent',
             description: 'Please check your email.'
@@ -115,6 +119,33 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
       }
 
       setIsOtpSending(false);
+   }
+
+   async function checkEmail() {
+      if (!form.getValues('mail')) return;
+      try {
+         setIsOtpSending(true);
+
+         const res = await checkEmailAndToken(form.getValues('mail'), token);
+
+         if (res.status === 200) {
+            await sendOtp();
+            return;
+         } else {
+            toast({
+               title: 'Uh oh! Something went wrong.',
+               description: res.data.message,
+               variant: 'destructive'
+            });
+         }
+      } catch (error) {
+         toast({
+            title: 'Uh oh! Something went wrong.',
+            description: getError(error),
+            variant: 'destructive'
+         });
+         setIsOtpSending(false);
+      }
    }
 
    return (
@@ -174,7 +205,13 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                            <FormItem>
                               <FormLabel>OTP</FormLabel>
                               <FormControl>
-                                 <Input placeholder="otp" type="text" {...field} />
+                                 <OTPInput
+                                    numInputs={6}
+                                    renderSeparator={() => <span className="w-4" />}
+                                    renderInput={(props) => <Input {...props} />}
+                                    inputStyle={{ width: 50, height: 50 }}
+                                    {...field}
+                                 />
                               </FormControl>
                               <FormMessage />
                            </FormItem>
@@ -215,12 +252,19 @@ export function SignUpForm({ className, ...props }: SignUpFormProps) {
                   <Button
                      type="submit"
                      className="w-full"
-                     disabled={isSubmitting && !form.formState.isValid}
+                     disabled={
+                        isSubmitting || !form.formState.isValid || !form.getValues('isAccepted')
+                     }
                   >
                      {isSubmitting ? '...' : 'Sign up'}
                   </Button>
                ) : (
-                  <Button className="w-full" disabled={isOtpSending} onClick={sendOtp}>
+                  <Button
+                     className="w-full"
+                     disabled={isOtpSending}
+                     onClick={checkEmail}
+                     type="button"
+                  >
                      {isOtpSending ? '...' : 'Continue'}
                   </Button>
                )}

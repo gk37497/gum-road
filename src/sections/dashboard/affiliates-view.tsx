@@ -1,4 +1,5 @@
 import { CardItem } from '@/components/common/dashboard/card-item';
+import EmptyView from '@/components/common/empty-view';
 import { getUserAffiliateList } from '@/lib/api/server/apis';
 import { getCurrentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
@@ -17,7 +18,7 @@ export default async function AffiliatesView() {
 
    const res = await getAffiliates();
 
-   if (!res) return null;
+   if (!res) return <EmptyView />;
 
    return (
       <div className="p-8">

@@ -1,4 +1,4 @@
-import { RegisterView } from '@/sections/auth/register';
+import PasswordResetView from '@/sections/auth/reset-password/view';
 import { redirect } from 'next/navigation';
 
 type Props = {
@@ -9,6 +9,5 @@ type Props = {
 
 export default function Page({ searchParams }: Props) {
    if (!searchParams.token) redirect('/auth/login');
-
-   return <RegisterView token={searchParams.token} />;
+   return <PasswordResetView token={searchParams.token} />;
 }

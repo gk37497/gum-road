@@ -4,11 +4,11 @@ import StoreProvider from '@/components/store-provider';
 import { ThemeProvider } from '@/components/theme-provider';
 import { Toaster } from '@/components/ui/toaster';
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Nunito_Sans } from 'next/font/google';
 import 'react-quill/dist/quill.snow.css';
 import './globals.css';
 
-const inter = Inter({ subsets: ['latin'] });
+const inter = Nunito_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
    title: 'Create Next App',

@@ -1,7 +1,7 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
    images: {
-      domains: ['social-club-bucket.s3.ap-northeast-1.amazonaws.com']
+      domains: ['social-club-bucket.s3.ap-northeast-1.amazonaws.com', 'avatar.vercel.sh']
    },
    env: {
       // Next-Auth

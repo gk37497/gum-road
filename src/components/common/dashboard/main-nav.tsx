@@ -17,7 +17,7 @@ export function MainNav({ className, ...props }: React.HTMLAttributes<HTMLElemen
                href={link.href}
                className={cn(
                   'text-base font-medium transition-colors hover:text-brand',
-                  pathname.startsWith(link.href) ? 'text-brand' : 'text-muted-foreground'
+                  pathname.startsWith(link.parent) ? 'text-brand' : 'text-muted-foreground'
                )}
             >
                {link.title}

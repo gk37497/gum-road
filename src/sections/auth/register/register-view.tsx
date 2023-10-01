@@ -1,10 +1,14 @@
 import AuthLayout from '../layout';
 import { SignUpForm } from './user-register-form';
 
-export default function RegisterView() {
+type Props = {
+   token: string;
+};
+
+export default function RegisterView({ token }: Props) {
    return (
       <AuthLayout type="signup">
-         <SignUpForm />
+         <SignUpForm token={token} />
       </AuthLayout>
    );
 }

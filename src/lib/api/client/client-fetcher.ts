@@ -24,9 +24,9 @@ export const fetcherWithBasicAuth = async <T>(config: AxiosRequestConfig) => {
    return mainFetcher<T>({
       ...config,
       headers: {
-         ...config.headers,
          'Content-Type': 'application/json',
-         Authorization: 'Basic ' + process.env.NEXT_PUBLIC_BASIC_AUTH_TOKEN
+         Authorization: 'Basic ' + process.env.NEXT_PUBLIC_BASIC_AUTH_TOKEN,
+         ...config.headers
       }
    });
 };

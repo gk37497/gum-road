@@ -1,11 +1,19 @@
 import ProductList from '@/components/common/product/product-list';
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Skeleton } from '@/components/ui/skeleton';
-import { getMerchantIdList, getMerchantProducts } from '@/lib/api/server/apis';
+import {
+   getAffiliateByMerchant,
+   getMerchantIdList,
+   getMerchantProducts
+} from '@/lib/api/server/apis';
 import { Suspense } from 'react';
 
 type Props = {
    params: {
       merchantId: string;
+   };
+   searchParams: {
+      affiliateId?: string;
    };
 };
 
@@ -27,29 +35,50 @@ async function getMerchantProductList(id: string) {
    return res.data.body;
 }
 
-export default async function MerchantDetailPage({ params }: Props) {
+export default async function MerchantDetailPage({ params, searchParams }: Props) {
    const { merchantId } = params;
-
    return (
-      <div className="mx-auto max-w-6xl space-y-8 p-5">
-         <Suspense fallback={<LoadingView />}>
-            <List merchantId={merchantId} />
-         </Suspense>
-      </div>
+      <section className="min-h-screen bg-white text-background">
+         <div className="space-y-8">
+            <Suspense fallback={<LoadingView />}>
+               <List merchantId={merchantId} affiliateId={searchParams?.affiliateId} />
+            </Suspense>
+         </div>
+      </section>
    );
 }
 
-async function List({ merchantId }: { merchantId: string }) {
+async function List({ merchantId, affiliateId }: { merchantId: string; affiliateId?: string }) {
    const merchantResponse = await getMerchantProductList(merchantId);
+
+   const affiliatedProducts = await getAffiliateByMerchant(affiliateId);
+   console.log(affiliateId);
 
    if (!merchantResponse) return null;
 
    return (
       <>
-         <div className="flex text-lg font-bold capitalize">
-            {merchantResponse?.merchant.storeName}
+         <div className="sticky top-0 z-10 space-y-3 border-b bg-white px-5 py-8">
+            <div className="mx-auto flex w-full max-w-6xl flex-row justify-between ">
+               <div className="flex items-center space-x-3">
+                  <Avatar className="h-9 w-9">
+                     <AvatarImage
+                        src={`https://avatar.vercel.sh/${
+                           merchantResponse?.merchant?.storeName || 'gumroad'
+                        }`}
+                     />
+                  </Avatar>
+                  <h1 className="text-lg font-semibold">
+                     {merchantResponse?.merchant?.storeName || ''}
+                  </h1>
+               </div>
+            </div>
          </div>
-         <ProductList products={merchantResponse?.product} />
+
+         <ProductList
+            products={merchantResponse?.product}
+            affiliatedProducts={affiliatedProducts?.data.body?.list}
+         />
       </>
    );
 }
@@ -57,10 +86,14 @@ async function List({ merchantId }: { merchantId: string }) {
 function LoadingView() {
    return (
       <>
-         <Skeleton className="h-16 w-full" />
-         <div className="grid w-full grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
+         <div className="sticky top-0 z-10 space-y-3 border-b  px-5 py-8">
+            <div className="mx-auto flex w-full max-w-6xl flex-row justify-between ">
+               <Skeleton className="h-16 w-full bg-secondary" />
+            </div>
+         </div>
+         <div className="mx-auto grid w-full max-w-6xl grid-cols-1 justify-between gap-5 px-5 pb-16 sm:grid-cols-2 lg:grid-cols-3 ">
             {Array.from({ length: 6 }).map((_, i) => (
-               <Skeleton key={i} className="h-96 w-full" />
+               <Skeleton key={i} className="h-96 w-full bg-secondary" />
             ))}
          </div>
       </>

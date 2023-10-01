@@ -1,19 +1,21 @@
+import { getError } from '@/utils/api-error';
 import { NextAuthOptions, getServerSession } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
-import { login, refreshToken, register } from './api/auth';
+import { login, refreshToken, register, resetPassword } from './api/auth';
 
 // eslint-disable-next-line no-unused-vars
-async function refreshAccessToken(token: string) {
+async function refreshAccessToken(token: any) {
    try {
-      const res = await refreshToken(token);
+      const res = await refreshToken(token.refreshToken);
       if (res.status === 200) {
          return {
-            id: 'fake_id',
-            accessToken: res.data.body?.accessToken
+            ...token,
+            accessToken: res.data.body?.accessToken,
+            accessTokenExpires: Date.now() + res.data.body?.expires_in! * 1000
          };
       }
    } catch (error) {
-      throw new Error(error?.toString());
+      throw new Error(getError(error));
    }
 }
 
@@ -32,9 +34,29 @@ export const authOptions: NextAuthOptions = {
             },
             password: { label: 'Password', type: 'password' },
             otp: { label: 'OTP', type: 'text' },
-            token: { label: 'Token', type: 'text' }
+            token: { label: 'Token', type: 'text' },
+            resetKey: { label: 'Reset Key', type: 'text' }
          },
          async authorize(credentials) {
+            if (credentials?.resetKey) {
+               try {
+                  const res = await resetPassword({
+                     newPassword: credentials.password,
+                     uid: credentials.resetKey
+                  });
+                  if (res.status === 200) {
+                     return {
+                        id: 'fake_id',
+                        accessToken: res.data.body?.accessToken!,
+                        refreshToken: res.data.body?.refreshToken!,
+                        accessTokenExpires: res.data.body?.expires_in!
+                     };
+                  }
+               } catch (error) {
+                  throw new Error(getError(error));
+               }
+            }
+
             if (credentials?.otp) {
                if (credentials?.email && credentials?.password) {
                   try {
@@ -48,27 +70,29 @@ export const authOptions: NextAuthOptions = {
                         return {
                            id: 'fake_id',
                            accessToken: res.data.body?.accessToken!,
-                           refreshToken: res.data.body?.refreshToken!
+                           refreshToken: res.data.body?.refreshToken!,
+                           accessTokenExpires: res.data.body?.expires_in!
                         };
                      }
                   } catch (error) {
-                     throw new Error(error?.toString());
+                     throw new Error(getError(error));
                   }
                }
-            } else {
-               if (credentials?.email && credentials?.password) {
-                  try {
-                     const res = await login(credentials);
-                     if (res.status === 200) {
-                        return {
-                           id: 'fake_id',
-                           accessToken: res.data.body?.accessToken!,
-                           refreshToken: res.data.body?.refreshToken!
-                        };
-                     }
-                  } catch (error) {
-                     throw new Error('Invalid credentials');
+            }
+
+            if (credentials?.email && credentials?.password) {
+               try {
+                  const res = await login(credentials);
+                  if (res.status === 200) {
+                     return {
+                        id: 'fake_id',
+                        accessToken: res.data.body?.accessToken!,
+                        accessTokenExpires: res.data.body?.expires_in!,
+                        refreshToken: res.data.body?.refreshToken!
+                     };
                   }
+               } catch (error) {
+                  throw new Error(getError(error));
                }
             }
             return null;
@@ -76,20 +100,26 @@ export const authOptions: NextAuthOptions = {
       })
    ],
    session: {
-      strategy: 'jwt'
+      strategy: 'jwt',
+      maxAge: 24 * 60 * 60 // 24 hours
    },
    callbacks: {
-      // TODO refresh token
       async jwt({ token, user }) {
          if (user) {
             token.accessToken = user.accessToken;
             token.refreshToken = user.refreshToken;
+            token.accessTokenExpires = user.accessTokenExpires;
+            return token;
          }
 
-         return token;
+         if (Date.now() + 8 * 60 * 60 * 1000 < Number(token.accessTokenExpires)) {
+            return token;
+         }
+
+         return await refreshAccessToken(token);
       },
 
-      session({ session, token }) {
+      async session({ session, token }) {
          if (token) {
             session.accessToken = token.accessToken;
             session.refreshToken = token.refreshToken;

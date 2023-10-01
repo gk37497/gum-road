@@ -1,6 +1,7 @@
 import { CardItem } from '@/components/common/dashboard/card-item';
 import { Overview } from '@/components/common/dashboard/overview';
 import { RecentSales } from '@/components/common/dashboard/recent-sales';
+import EmptyView from '@/components/common/empty-view';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { getPayouts } from '@/lib/api/server/apis';
 import { getCurrentUser } from '@/lib/auth';
@@ -14,7 +15,8 @@ export default async function PayoutsView() {
 
    const res = await getPayouts();
    const body = delve<Payout>(res, 'data.body');
-   if (!body) return null;
+
+   if (!body || !Object.values(body).length) return <EmptyView />;
 
    return (
       <div className="space-y-4 p-8 md:space-y-8">

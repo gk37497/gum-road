@@ -11,9 +11,7 @@ async function getProducts() {
 export default async function ProductList() {
    const res = await getProducts();
 
-   if (!res) return null;
-
-   if (Array.isArray(res)) return <EmptyView />;
+   if (!res) return <EmptyView />;
 
    return (
       <div className="p-8">

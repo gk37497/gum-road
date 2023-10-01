@@ -1,5 +1,6 @@
 'use client';
 
+import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
@@ -19,7 +20,6 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { useAppStore } from '@/lib/store';
 import { MerchantProduct, Option } from '@/lib/types';
-import toCurrencyString from '@/utils/format-number';
 import { fDate } from '@/utils/format-time';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -28,11 +28,13 @@ import { useState } from 'react';
 
 type Props = {
    product: MerchantProduct;
+   affiliateId?: string;
 };
 
-export default function ProductDetail({ product }: Props) {
+export default function ProductDetail({ product, affiliateId }: Props) {
    const [chosenOption, setChosenOption] = useState<Option>(product.option[0]);
    const addProduct = useAppStore((s) => s.addProduct);
+   const addAffiliate = useAppStore((s) => s.addAffiliate);
 
    const { toast } = useToast();
 
@@ -40,6 +42,7 @@ export default function ProductDetail({ product }: Props) {
 
    function addProductToCart() {
       if (chosenOption) {
+         if (affiliateId) addAffiliate(affiliateId, chosenOption);
          addProduct(product, chosenOption);
          router.push('/store/checkout');
          return;
@@ -52,37 +55,59 @@ export default function ProductDetail({ product }: Props) {
    }
 
    return (
-      <div className="mx-auto max-w-6xl space-y-8 p-5">
-         <div className="sticky top-0 z-10 flex flex-col space-y-3 rounded-sm border bg-background p-5 md:flex-row md:items-center md:justify-between md:space-y-0">
-            <h1>{product.title}</h1>
-            <div className="flex w-full max-w-[300px] justify-between">
-               <p className="flex-1 text-sm">{toCurrencyString(product.option[0]?.price)}</p>
-               <p className="flex-1 text-sm text-brand">{product.option[0]?.duration} month</p>
+      <div className="space-y-8 bg-white pb-16 text-sm text-background">
+         <div className="sticky top-0 z-10 space-y-3 border-b bg-white p-5 py-8">
+            <div className="mx-auto flex w-full max-w-5xl flex-row justify-between drop-shadow-md">
+               <div className="flex items-center space-x-3">
+                  <Avatar className="h-8 w-8">
+                     <AvatarImage src={`https://avatar.vercel.sh/${product.merchant.storeName}`} />
+                  </Avatar>
+                  <Link href={`/store/${product.merchant._id}`}>
+                     <h1 className="text-lg font-semibold capitalize ">
+                        {product.merchant.storeName}
+                     </h1>
+                  </Link>
+               </div>
+               {/* <div>
+                  <p className="text-sm">{toCurrencyString(product.option[0]?.price)}</p>
+                  <p className="text-sm text-brand">{product.option[0]?.duration} month</p>
+               </div> */}
             </div>
          </div>
-         <div className="border">
-            <div className="relative h-80 w-full overflow-hidden border-b sm:h-96 md:h-[600px]">
+
+         <div className="mx-auto max-w-5xl">
+            <div className="relative h-80 w-full overflow-hidden sm:h-96 md:h-[600px]">
                <Image src={product.coverImage.desktop} alt={product.title} fill />
             </div>
 
-            <div className="flex w-full flex-col md:flex-row">
-               <div className="w-full border-b md:border-r">
+            <div className="flex w-full flex-col border md:flex-row">
+               <div className="w-full md:border-r">
                   <div className="px-5 py-8">
-                     <h1 className="text-2xl">{product.title}</h1>
+                     <h1 className="text-3xl">{product.title}</h1>
                   </div>
 
                   <div className="flex items-center space-x-5 border-t ">
                      <div className="flex items-center space-x-3 border-r  px-5 py-3">
-                        <div className="h-8 w-8 rounded-full bg-brand" />
-                        <Link href={`/store/${product.merchant}`}>
-                           <p>{product.title}</p>
+                        <Avatar className="h-8 w-8">
+                           <AvatarImage
+                              src={`https://avatar.vercel.sh/${product.merchant.storeName}`}
+                           />
+                        </Avatar>
+                        <Link
+                           href={
+                              affiliateId
+                                 ? `/store/${product.merchant._id}?affiliateId=${affiliateId}`
+                                 : `/store/${product.merchant._id}`
+                           }
+                        >
+                           <p>{product.merchant.storeName}</p>
                         </Link>
                      </div>
                   </div>
 
                   <div
                      dangerouslySetInnerHTML={{ __html: product.description }}
-                     className="max-h-96 overflow-y-auto overflow-x-hidden border-t px-5 py-8"
+                     className="overflow-x-hidden border-t px-5 py-8"
                   />
                </div>
 
@@ -97,7 +122,7 @@ export default function ProductDetail({ product }: Props) {
                            }
                         }}
                      >
-                        <SelectTrigger className="w-full md:w-[280px]">
+                        <SelectTrigger className="w-full bg-white md:w-[280px]">
                            <SelectValue placeholder="Price" />
                         </SelectTrigger>
                         <SelectContent>
@@ -109,7 +134,7 @@ export default function ProductDetail({ product }: Props) {
                         </SelectContent>
                      </Select>
 
-                     <Card className="rounded-sm border ">
+                     <Card className="rounded-sm border bg-white text-background">
                         <CardContent className="space-y-3 p-3">
                            <div className="w-fit rounded-full border px-3 py-2">
                               {chosenOption && (
@@ -124,7 +149,7 @@ export default function ProductDetail({ product }: Props) {
                         </CardContent>
                      </Card>
 
-                     <Button className="h-12 w-full" onClick={addProductToCart}>
+                     <Button className="h-12 w-full" onClick={addProductToCart} variant="secondary">
                         Add to cart
                      </Button>
                   </div>

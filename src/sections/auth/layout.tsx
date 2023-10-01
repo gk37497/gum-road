@@ -4,7 +4,7 @@ export default function AuthLayout({
    type,
    children
 }: {
-   type: 'signin' | 'signup';
+   type: 'signin' | 'signup' | 'reset';
    children: ReactNode;
 }) {
    return (
@@ -12,7 +12,9 @@ export default function AuthLayout({
          <div className="xs:p-2 mx-auto flex h-full w-full flex-col justify-center space-y-6 sm:p-16">
             <div className="xs:left-2 absolute top-12 flex flex-col space-y-2 text-left sm:left-16">
                <h1 className="text-2xl font-semibold tracking-tight">
-                  {type === 'signin' ? 'Welcome back!' : 'Register'}
+                  {type === 'signin' && 'Welcome back!'}
+                  {type === 'reset' && 'Password Reset'}
+                  {type === 'signup' && 'Create an account'}
                </h1>
             </div>
 

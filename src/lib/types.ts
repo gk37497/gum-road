@@ -104,7 +104,8 @@ export interface AddAffiliatePayload {
 }
 
 export interface BuyProductPayload {
-   productId: string;
+   productId?: string;
+   affiliateId?: string;
    email: string;
    optionId: string;
 }
@@ -174,7 +175,7 @@ export interface MerchantProduct {
    price: string;
    summary: string;
    uid: string;
-   merchant: string;
+   merchant: Merchant;
    additionalInformation: AdditionalInformation[];
    term: Term;
    coverImage: TImage;
