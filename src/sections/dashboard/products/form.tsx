@@ -107,8 +107,7 @@ export default function ProductForm() {
             title: 'Term',
             description: values.term
          },
-         options: options,
-         price: values.price
+         options: options
       };
 
       try {
@@ -169,20 +168,6 @@ export default function ProductForm() {
                               <FormLabel>Product Name</FormLabel>
                               <FormControl>
                                  <Input placeholder="Product name" type="text" {...field} />
-                              </FormControl>
-                              <FormMessage />
-                           </FormItem>
-                        )}
-                     />
-
-                     <FormField
-                        control={form.control}
-                        name="price"
-                        render={({ field }) => (
-                           <FormItem>
-                              <FormLabel>Price</FormLabel>
-                              <FormControl>
-                                 <Input placeholder="1000" type="number" {...field} />
                               </FormControl>
                               <FormMessage />
                            </FormItem>

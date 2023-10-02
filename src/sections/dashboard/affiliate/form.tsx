@@ -133,7 +133,7 @@ export default function AffiliateForm({ products }: Props) {
                />
 
                <div>
-                  <div className="mb-5 ml-3 flex items-center justify-between space-x-12">
+                  <div className="mb-5 ml-3 hidden items-center justify-between space-x-12 md:flex ">
                      <div className="text-left text-sm font-light">Enable</div>
                      <div className="flex-1 text-left text-sm font-light">Product</div>
                      <div className="max-w-[200px] flex-1 text-left text-sm font-light">
@@ -141,17 +141,20 @@ export default function AffiliateForm({ products }: Props) {
                      </div>
                   </div>
 
-                  <Card className="rounded-sm border">
+                  <div className="rounded-sm">
                      {fields.map((field, index) => (
-                        <div
+                        <Card
                            key={field.id}
-                           className="flex items-center justify-between space-x-12 border-b p-3"
+                           className="my-5 flex flex-col justify-between space-y-6 rounded-sm border-b md:my-0 md:flex-row md:items-center md:space-x-12 md:space-y-0 md:p-3"
                         >
                            <FormField
                               control={form.control}
                               name={`list.${index}.enabled`}
                               render={({ field }) => (
-                                 <FormItem>
+                                 <FormItem className="border-b p-3 md:border-b-0 md:p-0">
+                                    <div className="mb-1 flex text-left text-xs font-bold md:hidden">
+                                       Enable
+                                    </div>
                                     <FormControl>
                                        <Switch
                                           checked={field.value}
@@ -163,7 +166,10 @@ export default function AffiliateForm({ products }: Props) {
                               )}
                            />
 
-                           <div className="flex-1 text-left text-sm font-light">
+                           <div className="flex-1 border-b px-3 pb-2 text-left text-sm font-light md:border-b-0 md:px-0 md:pb-0">
+                              <div className="mb-3 flex text-left text-xs font-bold md:hidden">
+                                 Product
+                              </div>
                               {products[index].title}
                            </div>
 
@@ -172,8 +178,11 @@ export default function AffiliateForm({ products }: Props) {
                               name={`list.${index}.commission`}
                               disabled={!form.getValues(`list.${index}.enabled`)}
                               render={({ field }) => (
-                                 <FormItem>
-                                    <div className="row flex items-center rounded-sm border px-2">
+                                 <FormItem className="px-3 pb-3 md:px-0 md:pb-0">
+                                    <div className="mb-1 flex text-left text-xs font-bold md:hidden">
+                                       Commission
+                                    </div>
+                                    <div className="row flex items-center justify-between rounded-sm border px-2">
                                        <FormControl>
                                           <Input
                                              placeholder="10"
@@ -192,9 +201,9 @@ export default function AffiliateForm({ products }: Props) {
                                  </FormItem>
                               )}
                            />
-                        </div>
+                        </Card>
                      ))}
-                  </Card>
+                  </div>
                </div>
 
                <Button

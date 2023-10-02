@@ -83,6 +83,7 @@ export const authOptions: NextAuthOptions = {
             if (credentials?.email && credentials?.password) {
                try {
                   const res = await login(credentials);
+
                   if (res.status === 200) {
                      return {
                         id: 'fake_id',
@@ -92,6 +93,7 @@ export const authOptions: NextAuthOptions = {
                      };
                   }
                } catch (error) {
+                  console.log(error);
                   throw new Error(getError(error));
                }
             }

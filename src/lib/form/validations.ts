@@ -6,7 +6,6 @@ const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/jpg', 'image/png', 'image/web
 export const addProductformSchema = z.object({
    storeName: z.string().min(3, { message: 'Store name must be at least 3 characters long.' }),
    title: z.string().min(3, { message: 'Title must be at least 3 characters long.' }),
-   price: z.string().min(4, { message: 'Price must be at least 1 character long.' }),
    description: z.string().min(10, { message: 'Description must be at least 3 characters long.' }),
    term: z.string().min(30, { message: 'Term must be at least 30 characters long.' }),
    cover: z

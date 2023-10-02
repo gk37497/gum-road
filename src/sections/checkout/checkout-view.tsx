@@ -28,13 +28,14 @@ import { fDateTime } from '@/utils/format-time';
 import { zodResolver } from '@hookform/resolvers/zod';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CheckoutSuccessDialog from './checkout-success-dialog';
 
 export default function CheckoutView() {
    const { toast } = useToast();
-
+   const router = useRouter();
    // const { timeLeft, start } = useCountdown({
    //    initialTime: 0
    // });
@@ -76,10 +77,6 @@ export default function CheckoutView() {
             setQPay(res.body?.qpay);
             setExpireDate(res.body?.expires_in);
             invoiceId.current = res.body?.transaction.id;
-            // start(5 * 60);
-            // setTimeout(() => {
-            //    setShowSuccessDialog(true);
-            // }, 5000);
          } else {
             throw new Error(res.message);
          }
@@ -105,11 +102,6 @@ export default function CheckoutView() {
             setQPay(res.body?.qpay);
             setExpireDate(res.body?.expires_in);
             invoiceId.current = res.body?.transaction.id;
-            // start(5 * 60);
-
-            // setTimeout(() => {
-            //    setShowSuccessDialog(true);
-            // }, 5000);
          } else {
             throw new Error(res.message);
          }
@@ -252,14 +244,31 @@ export default function CheckoutView() {
             ) : (
                <Card className="h-fit space-y-5 rounded-sm border  p-3">
                   <h1 className="py-1 text-center ">Scan QR code to pay</h1>
+                  <div className="min-h-56 mx-auto w-56 space-y-8">
+                     <div className="flex flex-row flex-wrap items-center justify-center sm:hidden">
+                        {qPay.urls.map((link) => (
+                           <div key={link.name} className="m-2 rounded-sm">
+                              <a href={link.link} target="_blank" rel="noopener">
+                                 <Image
+                                    alt={link.name}
+                                    src={link.logo}
+                                    width={40}
+                                    height={40}
+                                    style={{ borderRadius: '5px', backgroundColor: 'gray' }}
+                                 />
+                              </a>
+                           </div>
+                        ))}
+                     </div>
+
+                     <img alt="qrimage" src={`data:image/jpeg;base64,${qPay.qr_image}`} />
+                  </div>
                   <p className="text-center">
                      <span className="text-xs font-normal">
+                        Expires in:{' '}
                         {expireDate ? fDateTime(new Date(expireDate).toLocaleString()) : ''}
                      </span>
                   </p>
-                  <div className="mx-auto h-56 w-56">
-                     <img alt="qrimage" src={`data:image/jpeg;base64,${qPay.qr_image}`} />
-                  </div>
                </Card>
             )}
          </div>
@@ -268,6 +277,7 @@ export default function CheckoutView() {
             onClose={() => {
                setQPay(undefined);
                setShowSuccessDialog(false);
+               router.back();
             }}
          />
       </div>

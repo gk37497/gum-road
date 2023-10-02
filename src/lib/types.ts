@@ -46,7 +46,6 @@ export interface UploadResponse {
 export interface AddProductPayload {
    title: string;
    description: string;
-   price: string;
    summary: string;
    storeName: string;
    coverImageId: string;

@@ -55,7 +55,7 @@ export default function ProductDetail({ product, affiliateId }: Props) {
    }
 
    return (
-      <div className="space-y-8 bg-white pb-16 text-sm text-background">
+      <div className="space-b-8 bg-white pb-16 text-sm text-background">
          <div className="sticky top-0 z-10 space-y-3 border-b bg-white p-5 py-8">
             <div className="mx-auto flex w-full max-w-5xl flex-row justify-between drop-shadow-md">
                <div className="flex items-center space-x-3">

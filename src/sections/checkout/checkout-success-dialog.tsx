@@ -20,10 +20,7 @@ export default function CheckoutSuccessDialog({
                <DialogTitle>
                   Payment successfull <span>🎉</span>
                </DialogTitle>
-               <DialogDescription>
-                  Exercitation sunt sint duis excepteur laborum sint culpa mollit sit exercitation
-                  ea.
-               </DialogDescription>
+               <DialogDescription>Check your email for the order confirmation</DialogDescription>
             </DialogHeader>
          </DialogContent>
       </Dialog>

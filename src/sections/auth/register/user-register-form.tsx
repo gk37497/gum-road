@@ -24,8 +24,8 @@ import * as z from 'zod';
 
 const formSchema = z.object({
    mail: z.string().email(),
-   password1: z.string().min(4),
-   password2: z.string().min(4),
+   password1: z.string().min(8, { message: 'Password must be at least 8 characters long' }),
+   password2: z.string().min(8, { message: 'Password must be at least 8 characters long' }),
    otp: z.string().min(6),
    isAccepted: z.boolean()
 });
@@ -49,7 +49,8 @@ export function SignUpForm({ className, token, ...props }: SignUpFormProps) {
          password2: '',
          otp: '',
          isAccepted: false
-      }
+      },
+      mode: 'onChange'
    });
 
    const { isSubmitting } = form.formState;
@@ -100,15 +101,6 @@ export function SignUpForm({ className, token, ...props }: SignUpFormProps) {
          return;
       }
 
-      if (values.password1 !== values.password2) {
-         toast({
-            title: 'Passwords do not match',
-            description: 'Please try again.',
-            variant: 'destructive'
-         });
-         return;
-      }
-
       const res = await sendOTP(values.mail);
       if (res.status === 200) {
          setIsOtpSent(true);
@@ -123,6 +115,27 @@ export function SignUpForm({ className, token, ...props }: SignUpFormProps) {
 
    async function checkEmail() {
       if (!form.getValues('mail')) return;
+
+      const values = form.getValues();
+
+      if (values.password1 !== values.password2) {
+         toast({
+            title: 'Passwords do not match',
+            description: 'Please try again.',
+            variant: 'destructive'
+         });
+         return;
+      }
+
+      if (values.password1.length < 8 && values.password2.length < 8) {
+         toast({
+            title: 'Password must be at least 8 characters long',
+            description: 'Please try again.',
+            variant: 'destructive'
+         });
+         return;
+      }
+
       try {
          setIsOtpSending(true);
 

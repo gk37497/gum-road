@@ -3,7 +3,6 @@ import { TAddAffliate, TAddProduct } from './types';
 export const addProductDefaults: TAddProduct = {
    storeName: '',
    title: '',
-   price: '',
    description: '',
    term: '',
    summary: '',
