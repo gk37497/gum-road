@@ -22,28 +22,32 @@ export function getUserProducts() {
 export function getUserAffiliates() {
    return appServerFetch<{ affiliates: Omit<Affliate, 'email'>[]; cards: Omit<Cards, 'members'> }>({
       endpoint: endpoints['affliate-list-own'],
-      type: 'token'
+      type: 'token',
+      cache: 'no-cache'
    });
 }
 
 export function getCustomerInfo() {
    return appServerFetch<Customer>({
       endpoint: endpoints.customer,
-      type: 'token'
+      type: 'token',
+      cache: 'no-cache'
    });
 }
 
 export function getMerchantIdList() {
    return appServerFetch<{ list: string[] }>({
       endpoint: endpoints['merchant-list'],
-      type: 'basic-auth'
+      type: 'basic-auth',
+      cache: 'no-cache'
    });
 }
 
 export function getUserAffiliateList() {
    return appServerFetch<{ affiliates: Affliate[]; cards: Omit<Cards, 'members'> }>({
       endpoint: endpoints['affliate-list'],
-      type: 'token'
+      type: 'token',
+      cache: 'no-cache'
    });
 }
 
@@ -59,7 +63,7 @@ export function getProductById(id: string) {
    return appServerFetch<{ product: MerchantProduct }>({
       endpoint: endpoints['product-get-by-id'] + '/' + id,
       type: 'basic-auth',
-      cache: 'no-store'
+      cache: 'no-cache'
    });
 }
 
