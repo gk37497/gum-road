@@ -11,7 +11,7 @@ export default function Home() {
    return (
       <main className="flex min-h-screen flex-col items-center justify-between p-12">
          <div className="z-10 flex h-full w-full flex-1 flex-col items-center justify-between space-y-8">
-            <h1 className="text-4xl text-white opacity-70 md:text-6xl">Sell Stream</h1>
+            <h1 className="text-4xl text-white opacity-70 md:text-6xl" />
             <Buttons />
          </div>
          <div className="absolute inset-0 bg-[url('/images/wall.jpg')] bg-cover bg-center  opacity-50" />
