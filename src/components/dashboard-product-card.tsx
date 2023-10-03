@@ -13,7 +13,7 @@ export default function DashboardProductCard({ product }: { product: Product }) 
             <Image src={product.thumbnail.tablet} alt={product.title} fill />
          </div>
          <div className={cn(className, 'items-left flex')}>
-            <Link href={`/store/6513cd43bb134393a3547834/product/${product.uid}`}>
+            <Link href={`/store/651a1646a7792c41af33f748/product/${product.uid}`}>
                <div className="font-light underline">{product.title}</div>
             </Link>
          </div>

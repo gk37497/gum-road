@@ -22,9 +22,11 @@ async function getProduct(id: string) {
 
 export default async function ProductDetailPage({ params }: Props) {
    return (
-      <Suspense fallback={<Skeleton className="h-full w-full" />}>
-         <Detail productId={params.productId} />
-      </Suspense>
+      <div>
+         <Suspense fallback={<Skeleton className="h-full w-full bg-secondary" />}>
+            <Detail productId={params.productId} />
+         </Suspense>
+      </div>
    );
 }
 

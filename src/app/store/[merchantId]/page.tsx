@@ -52,7 +52,6 @@ async function List({ merchantId, affiliateId }: { merchantId: string; affiliate
    const merchantResponse = await getMerchantProductList(merchantId);
 
    const affiliatedProducts = await getAffiliateByMerchant(affiliateId);
-   console.log(affiliateId);
 
    if (!merchantResponse) return null;
 
@@ -93,7 +92,7 @@ function LoadingView() {
          </div>
          <div className="mx-auto grid w-full max-w-6xl grid-cols-1 justify-between gap-5 px-5 pb-16 sm:grid-cols-2 lg:grid-cols-3 ">
             {Array.from({ length: 6 }).map((_, i) => (
-               <Skeleton key={i} className="h-96 w-full bg-secondary" />
+               <Skeleton key={i} className="h-96 w-full bg-secondary/50" />
             ))}
          </div>
       </>

@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+   // output: 'export',
    images: {
       domains: [
          'social-club-bucket.s3.ap-northeast-1.amazonaws.com',
