@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import { ReactNode } from 'react';
 
 export default function AuthLayout({
@@ -22,7 +23,13 @@ export default function AuthLayout({
          </div>
 
          <div className="relative hidden h-full flex-col bg-muted p-10 dark:border-r lg:flex">
-            <div className="absolute inset-0 bg-zinc-900 bg-[url('/images/login-banner.png')] bg-cover bg-center" />
+            <div className="absolute inset-0">
+               <Image
+                  src="https://djpjib0vv06yz.cloudfront.net/public/login-banner.webp"
+                  fill
+                  alt="cover"
+               />
+            </div>
          </div>
       </div>
    );

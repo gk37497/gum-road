@@ -6,7 +6,8 @@ const nextConfig = {
          'social-club-bucket.s3.ap-northeast-1.amazonaws.com',
          'avatar.vercel.sh',
          'qpay.mn',
-         's3.qpay.mn'
+         's3.qpay.mn',
+         'djpjib0vv06yz.cloudfront.net'
       ]
    },
    env: {

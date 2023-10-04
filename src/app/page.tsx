@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { getMerchantIdList } from '@/lib/api/server/apis';
+import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -17,7 +18,9 @@ export default function Home() {
                <Buttons />
             </Suspense>
          </div>
-         <div className="absolute inset-0 bg-[url('/images/wall.jpg')] bg-cover bg-center  opacity-50" />
+         <div className="absolute inset-0 opacity-50">
+            <Image src="https://djpjib0vv06yz.cloudfront.net/public/walll.webp" fill alt="cover" />
+         </div>
          <div className="absolute inset-0 bg-gradient-to-t from-background from-20% via-40%" />
       </main>
    );
